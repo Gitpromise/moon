@@ -1,7 +1,9 @@
 package com.tocersoft.member.entity;
 import java.util.Date;
+import java.util.List;
 
 import com.tocersoft.base.entity.BaseBusEntity;
+import com.tocersoft.system.entity.Collect;
 
 /**
  * 会员信息
@@ -65,6 +67,7 @@ public class Member extends BaseBusEntity {
     private Integer status;
     /** 经度 */
     private Double lng;
+    /** 唯纬度*/
     private Double lat;
 
     private String groupCompant;
@@ -77,6 +80,16 @@ public class Member extends BaseBusEntity {
     private String memberCardId;
 
     private Integer score;
+
+    private List<Collect> collect;
+
+    public List<Collect> getCollect() {
+        return collect;
+    }
+
+    public void setCollect(List<Collect> collect) {
+        this.collect = collect;
+    }
 
     public String getMemberCardId() {
         return memberCardId;
