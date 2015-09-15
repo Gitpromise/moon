@@ -13,8 +13,8 @@ public class CipherUtilityTest {
         //CipherUtility test = new CipherUtility();
         //加密时 请确认env下有key为private的属性
         // System.out.println(CipherUtility.AES.encrypt("jdbc:mysql://127.0.0.1:3306/ly_sms?characterEncoding=UTF-8"));
-        Assert.assertEquals(CipherUtility.AES.encrypt("leyaftpadmin"), "_X2iVCvx-jMc0TlK74qODw");
-        Assert.assertEquals(CipherUtility.AES.encrypt("leyatestftp"), "vpb97KM2D5X_wO_BxlBMcw");
+        Assert.assertEquals(CipherUtility.AES.encrypt("leyaftpadmin"), "cyl2JQSTUj5d-P_eWUINMQ");
+        Assert.assertEquals(CipherUtility.AES.encrypt("leyatestftp"), "s5FgCWJkjhtlkZPpWTMNKA");
         //Assert.assertEquals(CipherUtility.AES.encrypt("leyatestftp"),"error");
     }
 
