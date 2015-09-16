@@ -6,6 +6,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.ly.sdk.utils.LeyaHttpClientUtils;
+import com.ly.sdk.utils.RequestAccessToken;
 import com.ly.sdk.vo.BaseResponseVo;
 
 public class HttpClientUtilsTest {
@@ -33,10 +34,11 @@ public class HttpClientUtilsTest {
 
 	@Test
 	public void testPost() {
-		String url = "http://121.40.156.189:8085/leyaSmsService/demotest/testasync";
+		/*String url = "http://121.40.156.189:8085/leyaSmsService/demotest/testasync";
 		Map<String, String> params = new HashMap<String, String>(0);
 		params.put("requestIndex", "1");
 		BaseResponseVo vo = LeyaHttpClientUtils.sendPost(url, params);
-		System.out.println(vo.toString());
+		System.out.println(vo.toString());*/
+		System.out.println(RequestAccessToken.getAccessToken());
 	}
 }
