@@ -1,5 +1,6 @@
 package com.ly.sdk.utils;
 
+import java.io.UnsupportedEncodingException;
 import java.security.Key;
 import java.security.SecureRandom;
 
@@ -9,6 +10,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
 
 import com.ly.sdk.env.EnvProperties;
 
@@ -28,6 +30,8 @@ public class PaAesTools {
    // 密钥算法
     private static final String KEY_ALGORITHM = "AES";
     
+    private static final String ENCRYPT_ENCODING= "GBK";
+    
     /**
      * @description AES加密
      * @author WANGYAN200
@@ -39,7 +43,7 @@ public class PaAesTools {
         try {
             Key key = getKey();
             Cipher cipher = Cipher.getInstance(KEY_ALGORITHM);// 创建密码器
-            byte[] byteContent = content.getBytes(LeyaConstantUtils.DEFAULT_ENCODING);
+            byte[] byteContent = content.getBytes(ENCRYPT_ENCODING);
             cipher.init(Cipher.ENCRYPT_MODE, key);// 初始化
             byte[] result = cipher.doFinal(byteContent);
             return result; // 加密
@@ -153,11 +157,18 @@ public class PaAesTools {
     }
 
     /**
-     * @description 加密原始串
+     * @description 加密原始串   由于使用UTF-8编码 但是平安加密时使用GBK加密 不能修改
+     * 所以在此现将要加密的字符串进行转成GBK编码再加密
      * @param contents 原始字符串
      * @return
      */
     public static String encryptString(String contents) {
+    	byte[] utfBytes = StringUtils.getBytesUtf8(contents);
+    	try {
+			contents = new String(utfBytes,ENCRYPT_ENCODING);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
         return Base64.encodeBase64String(encrypt(contents, getPassword()));
     }
     
