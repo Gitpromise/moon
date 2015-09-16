@@ -19,11 +19,14 @@ public class HttpClientUtilsTest {
     
     @Test
     public void testInvokeGet(){
-        String url = "http://ir.baidu.com/phoenix.zhtml?c=188488";
+       /* String url = "http://ir.baidu.com/phoenix.zhtml?c=188488";
         Map<String,String> params = new  HashMap<String,String>(0);
         params.put("p", "irol-homeprofile");
         BaseResponseVo vo =  LeyaHttpClientUtils.invokeGet(url,params);
-        System.out.println(vo.toString());
+        System.out.println(vo.toString());*/
+        System.setProperty("org.quartz.scheduler.instanceId", "system001");
+        System.getProperties();
+        System.out.println(System.getProperty("org.quartz.scheduler.instanceId"));
     }
     
     @Test

@@ -32,4 +32,13 @@ public class CipherUtilityTest {
         Assert.assertEquals(PaAesTools.encryptString(str), paStr);
     }
 
+    public static void main(String[] args) {
+        System.out.println(CipherUtility.AES.encrypt("utest"));
+        System.out.println(CipherUtility.AES.encrypt("ptest"));
+        
+        System.out.println(CipherUtility.AES.decrypt("-8p6PVtuekagUkmNyhws_g"));
+        
+        System.out.println(CipherUtility.AES.decrypt("rVwDpmsqh6myQuaOTWlWMA"));
+        
+    }
 }

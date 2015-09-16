@@ -35,6 +35,7 @@ import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContexts;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -159,6 +160,89 @@ public class LeyaHttpClientUtils {
             setHeadContentType(httpPost, contentType);
             //设置请求参数
             setPostParams(httpPost, paramsMap);
+            CloseableHttpResponse response = httpclient.execute(httpPost);
+            try {
+                HttpEntity entity = response.getEntity();
+                try {
+                    //获得http请求状态
+                    int statusCode = response.getStatusLine().getStatusCode();
+                    if (HttpStatus.SC_OK == statusCode) {
+                        if (entity != null) {
+                            responseMsg = EntityUtils.toString(entity, encoding);
+                            responseCode = LeyaConstantUtils.SUCCESS_RESPONSE;
+                        } else {
+                            responseMsg = "请求返回的内容为空";
+                        }
+                    } else {
+                        httpPost.abort();
+                        responseMsg = "请求返回状态码:" + statusCode;
+                    }
+
+                } finally {
+                    if (entity != null) {
+                        entity.getContent().close();
+                    }
+                }
+            } finally {
+                if (response != null) {
+                    response.close();
+                }
+            }
+        } catch (Exception e) {
+            responseMsg = "请求出错:msg"+e.getMessage();
+        } finally {
+            httpPost.releaseConnection();
+        }
+        return new BaseResponseVo(responseCode, responseMsg);
+    }
+    
+    
+    /**
+     * 
+     * <p>Description: TODO</p>
+     * @param url
+     * @param paramsMap
+     * @return
+     */
+    public static BaseResponseVo sendPostJsonData(String url,String postData){
+        return sendDataPost(url, connectTimeout, postData, LeyaConstantUtils.DEFAULT_ENCODING, HeaderContentTypeEnum.APPLICATION_JSON);
+    }
+    
+    /**
+     * 
+     * <p>Description: TODO</p>
+     * @param url
+     * @param paramsMap
+     * @return
+     */
+    public static BaseResponseVo sendPostJsonData(String url,String postData,int connectTimeout){
+        return sendDataPost(url, connectTimeout, postData, LeyaConstantUtils.DEFAULT_ENCODING, HeaderContentTypeEnum.APPLICATION_JSON);
+    }
+    /**
+     * 
+     * <p>Description: 发送post请求</p>
+     * @param url 请求的url
+     * @param timeout 设置超时时间
+     * @param postData 请求的参数内容
+     * @param encoding  设置编码格式 一般不需要设置 使用utf-8
+     * @param contentType 设置请求contentType
+     * @return 返回响应的 vo 
+     */
+    public static BaseResponseVo sendDataPost(String url, int timeout,String postData, String encoding,
+            HeaderContentTypeEnum contentType) {
+        String responseCode = LeyaConstantUtils.FAILURE_RESPONSE;
+        String responseMsg = "";
+        HttpPost httpPost = new HttpPost(url);
+        try {
+            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(timeout).setConnectTimeout(timeout)
+                    .setConnectionRequestTimeout(timeout).setExpectContinueEnabled(false).build();
+            httpPost.setConfig(requestConfig);
+            setHeadContentType(httpPost, contentType);
+            //设置请求参数
+            String body = postData;
+            //System.out.println(body);
+            HttpEntity httpEntity = new StringEntity(body,encoding);
+            httpPost.setEntity(httpEntity);
             CloseableHttpResponse response = httpclient.execute(httpPost);
             try {
                 HttpEntity entity = response.getEntity();
