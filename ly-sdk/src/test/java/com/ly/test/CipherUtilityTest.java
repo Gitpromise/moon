@@ -30,6 +30,15 @@ public class CipherUtilityTest {
         String paStr = "9TGDf5G+OOIxyX2wEDkjMQ==";
         // System.out.println(decryptString("9TGDf5G+OOIxyX2wEDkjMQ=="));
         Assert.assertEquals(PaAesTools.encryptString(str), paStr);
+        
+        String preStr = "当然，它表示参数是另一个页面提交过来的";
+		/*String gbkByte = new String(preStr.getBytes("gbk"),"GBK");
+		System.out.println(gbkByte);
+		
+		System.out.println(new String(gbkByte.getBytes("UTF-8"),"UTF-8"));*/
+		String encryData = PaAesTools.encryptString(preStr);
+		System.out.println(encryData);
+		System.out.println(PaAesTools.decryptString(encryData));
     }
 
     public static void main(String[] args) {

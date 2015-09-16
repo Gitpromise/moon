@@ -157,7 +157,7 @@ public class LeyaHttpClientUtils {
             RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(timeout).setConnectTimeout(timeout)
                     .setConnectionRequestTimeout(timeout).setExpectContinueEnabled(false).build();
             httpPost.setConfig(requestConfig);
-            setHeadContentType(httpPost, contentType);
+            setPostHeaderContentType(httpPost, contentType);
             //设置请求参数
             setPostParams(httpPost, paramsMap);
             CloseableHttpResponse response = httpclient.execute(httpPost);
@@ -237,7 +237,7 @@ public class LeyaHttpClientUtils {
             RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(timeout).setConnectTimeout(timeout)
                     .setConnectionRequestTimeout(timeout).setExpectContinueEnabled(false).build();
             httpPost.setConfig(requestConfig);
-            setHeadContentType(httpPost, contentType);
+            setPostHeaderContentType(httpPost, contentType);
             //设置请求参数
             String body = postData;
             //System.out.println(body);
@@ -285,19 +285,30 @@ public class LeyaHttpClientUtils {
      * @param url
      * @return
      */
-    public static BaseResponseVo invokeGet(String url){
-        return invokeGet(url, null, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout);
+    public static BaseResponseVo invokeJosnGet(String url){
+        return invokeGet(url, null, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout,HeaderContentTypeEnum.APPLICATION_JSON);
+    }
+    
+    public static BaseResponseVo invokeGet(String url,HeaderContentTypeEnum contentType){
+        return invokeGet(url, null, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout,contentType);
     }
     
     /**
      * 
-     * <p>Description: TODO</p>
+     * <p>Description: 	请求json格式数据</p>
      * @param url
      *  @param params
      * @return
      */
-    public static BaseResponseVo invokeGet(String url,Map<String, String> params){
-        return invokeGet(url, params, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout);
+    public static BaseResponseVo invokeJsonGet(String url,Map<String, String> params){
+        return invokeGet(url, params, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout,HeaderContentTypeEnum.APPLICATION_JSON);
+    }
+    
+    public static BaseResponseVo invokeGet(String url,Map<String, String> params,HeaderContentTypeEnum contentType){
+        return invokeGet(url, params, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout,contentType);
+    }
+    public static BaseResponseVo invokeGet(String url){
+        return invokeGet(url, null, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout,HeaderContentTypeEnum.NONE);
     }
     
     /**
@@ -309,7 +320,7 @@ public class LeyaHttpClientUtils {
      * @param connectTimeout 超时时间
      * @return
      */
-    public static BaseResponseVo invokeGet(String url, Map<String, String> params, String encode, int connectTimeout) {
+    public static BaseResponseVo invokeGet(String url, Map<String, String> params, String encode, int connectTimeout,HeaderContentTypeEnum contentType) {
         String responseString = "";
         String responseCode = LeyaConstantUtils.FAILURE_RESPONSE;
         RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(connectTimeout)
@@ -337,6 +348,7 @@ public class LeyaHttpClientUtils {
         }
        
         HttpGet getMethod = new HttpGet(sb.toString());
+        setGetHeaderContentType(getMethod,contentType);
         getMethod.setConfig(requestConfig);
         try {
             CloseableHttpResponse response = httpclient.execute(getMethod);
@@ -438,7 +450,7 @@ public class LeyaHttpClientUtils {
      * @param httpPost
      * @param contentType
      */
-    private static void setHeadContentType(HttpPost httpPost, HeaderContentTypeEnum contentType) {
+    private static void setPostHeaderContentType(HttpPost httpPost, HeaderContentTypeEnum contentType) {
         switch (contentType) {
         case APPLICATION_JSON:
             httpPost.addHeader("Content-Type", "application/json;charset=UTF-8");
@@ -452,6 +464,24 @@ public class LeyaHttpClientUtils {
         case TXT_PLAIN:
             httpPost.addHeader("Content-Type", "text/plain;charset=UTF-8");
             httpPost.addHeader("Accept", "text/plain;charset=UTF-8");
+            break;
+        case NONE:
+            break;
+        }
+    }
+    private static void setGetHeaderContentType(HttpGet httpGet, HeaderContentTypeEnum contentType) {
+        switch (contentType) {
+        case APPLICATION_JSON:
+        	httpGet.addHeader("Content-Type", "application/json;charset=UTF-8");
+        	httpGet.addHeader("Accept", "application/json;charset=UTF-8");
+            break;
+        case APPLICATION_XML:
+        	httpGet.addHeader("Content-Type", "application/xml;charset=UTF-8");
+        	httpGet.addHeader("Accept", "application/xml;charset=UTF-8");
+            break;
+        case TXT_PLAIN:
+        	httpGet.addHeader("Content-Type", "text/plain;charset=UTF-8");
+        	httpGet.addHeader("Accept", "text/plain;charset=UTF-8");
             break;
         case NONE:
             break;
