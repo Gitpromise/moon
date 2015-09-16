@@ -39,7 +39,7 @@ public class PaAesTools {
         try {
             Key key = getKey();
             Cipher cipher = Cipher.getInstance(KEY_ALGORITHM);// 创建密码器
-            byte[] byteContent = content.getBytes("GBK");
+            byte[] byteContent = content.getBytes(LeyaConstantUtils.DEFAULT_ENCODING);
             cipher.init(Cipher.ENCRYPT_MODE, key);// 初始化
             byte[] result = cipher.doFinal(byteContent);
             return result; // 加密
@@ -164,4 +164,9 @@ public class PaAesTools {
     public static String getPassword(){
         return EnvProperties.get(PA_CHILDREN_DENTAL_KEY);
     }
+    public static void main(String[] args) {
+		String preStr = "安测试";
+		System.out.println(encryptString(preStr));
+		System.out.println(decryptString("hnlDNPbr5RKMv8tav91HQg=="));
+	}
 }
