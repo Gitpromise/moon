@@ -1,7 +1,5 @@
 package com.ly.test;
 
-import java.sql.Date;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -42,15 +40,15 @@ public class CipherUtilityTest {
 		System.out.println(encryData);
 		System.out.println(PaAesTools.decryptString(encryData));
     }
-
-    public static void main(String[] args) {
+    
+    @Test
+    public void encryptData(){
         System.out.println(CipherUtility.AES.encrypt("utest"));
         System.out.println(CipherUtility.AES.encrypt("ptest"));
         
         System.out.println(CipherUtility.AES.decrypt("-8p6PVtuekagUkmNyhws_g"));
         
         System.out.println(CipherUtility.AES.decrypt("rVwDpmsqh6myQuaOTWlWMA"));
-        
-        
     }
+
 }
