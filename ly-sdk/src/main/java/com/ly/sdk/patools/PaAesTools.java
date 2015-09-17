@@ -1,4 +1,4 @@
-package com.ly.sdk.utils;
+package com.ly.sdk.patools;
 
 import java.io.UnsupportedEncodingException;
 import java.security.Key;
@@ -12,6 +12,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 
 import com.ly.sdk.env.EnvProperties;
+import com.ly.sdk.utils.LeyaConstantUtils;
 
 /**
  * 

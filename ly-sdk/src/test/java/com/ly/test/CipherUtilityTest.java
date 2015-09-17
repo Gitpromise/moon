@@ -3,8 +3,8 @@ package com.ly.test;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.ly.sdk.patools.PaAesTools;
 import com.ly.sdk.utils.CipherUtility;
-import com.ly.sdk.utils.PaAesTools;
 
 public class CipherUtilityTest {
 

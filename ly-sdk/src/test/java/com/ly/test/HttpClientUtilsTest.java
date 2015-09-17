@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.ly.sdk.patools.RequestAccessToken;
 import com.ly.sdk.utils.LeyaHttpClientUtils;
-import com.ly.sdk.utils.RequestAccessToken;
 import com.ly.sdk.vo.BaseResponseVo;
 
 public class HttpClientUtilsTest {
