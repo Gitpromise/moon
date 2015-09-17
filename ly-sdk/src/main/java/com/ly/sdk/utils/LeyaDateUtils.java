@@ -49,6 +49,15 @@ public class LeyaDateUtils extends DateFormatUtils {
         return parseDateStr(timeStr, YYYY_MM_DDHHMMSS);
     }
 
+    /**
+     * 
+     * <p>Description: 返回当前系统时间值</p>
+     * @return
+     */
+    public static long getCurrentSystemTime() {
+        return System.nanoTime();
+    }
+
     public static void main(String[] args) {
         System.out.println(LeyaDateUtils.parseDateStr("2015/8/4 18:35:35", new String[] { YYYY_MM_DDHHMMSS,
                 YYYYMMDDHHMMSSSDECOLLATOR }));
