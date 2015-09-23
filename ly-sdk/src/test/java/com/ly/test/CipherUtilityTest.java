@@ -41,14 +41,21 @@ public class CipherUtilityTest {
 		System.out.println(PaAesTools.decryptString(encryData));
     }
     
+
+
     @Test
-    public void encryptData(){
-        System.out.println(CipherUtility.AES.encrypt("utest"));
-        System.out.println(CipherUtility.AES.encrypt("ptest"));
+    public void uatDatabaseData(){
+        String userName = "utest";
+        String password = "cow8(*3dlFAQ";
+        String encryUserName = CipherUtility.AES.encrypt(userName);
+        String encryPwd = CipherUtility.AES.encrypt(password);
+        System.out.println(encryUserName);
+        System.out.println(encryPwd);
+
         
-        System.out.println(CipherUtility.AES.decrypt("-8p6PVtuekagUkmNyhws_g"));
+        System.out.println(CipherUtility.AES.decrypt(encryUserName));
         
-        System.out.println(CipherUtility.AES.decrypt("rVwDpmsqh6myQuaOTWlWMA"));
+        System.out.println(CipherUtility.AES.decrypt(encryPwd));
     }
 
 }
