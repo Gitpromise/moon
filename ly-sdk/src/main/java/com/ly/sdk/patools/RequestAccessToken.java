@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.ly.sdk.env.PinganEnvProperties;
+import com.ly.sdk.utils.CipherUtility;
 import com.ly.sdk.utils.LeyaConstantUtils;
 import com.ly.sdk.utils.LeyaHttpClientUtils;
 import com.ly.sdk.vo.BaseResponseVo;
@@ -18,8 +19,10 @@ public class RequestAccessToken {
 	 */
 	public static String getAccessToken(){
 	   String tokenUrl  = PinganEnvProperties.getString(LeyaConstantUtils.PINGAN_ACCESS_TOKEN_RUL);
-	   String clientId = PinganEnvProperties.getString(LeyaConstantUtils.PINGAN_CLIENT_ID);
-	   String clientSecret = PinganEnvProperties.getString(LeyaConstantUtils.PINGAN_CLIENT_SECRET);
+	   String encryClientId = PinganEnvProperties.getString(LeyaConstantUtils.PINGAN_CLIENT_ID);
+	   String clientId = CipherUtility.AES.decrypt(encryClientId);
+	   String encryClientSecret = PinganEnvProperties.getString(LeyaConstantUtils.PINGAN_CLIENT_SECRET);
+	   String clientSecret = CipherUtility.AES.decrypt(encryClientSecret);
 	   String grantType = PinganEnvProperties.getString(LeyaConstantUtils.PINGAN_GRANT_TYPE);
 	   Map<String,String> params = new HashMap<String,String>(0);
 	   params.put(LeyaConstantUtils.PINGAN_CLIENT_ID, clientId);

@@ -57,5 +57,18 @@ public class CipherUtilityTest {
         
         System.out.println(CipherUtility.AES.decrypt(encryPwd));
     }
+    
+    @Test
+    public void encryPaUserPwd(){
+        String userName = "P_LEYACK_YL";
+        String password = "jt6Ss47N";
+        String encryUserName = CipherUtility.AES.encrypt(userName);
+        String encryPwd = CipherUtility.AES.encrypt(password);
+        System.out.println(encryUserName);
+        System.out.println(encryPwd);
+        System.out.println(CipherUtility.AES.decrypt(encryUserName));
+        
+        System.out.println(CipherUtility.AES.decrypt(encryPwd));
+    }
 
 }
