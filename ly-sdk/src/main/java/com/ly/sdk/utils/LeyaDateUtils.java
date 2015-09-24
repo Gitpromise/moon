@@ -14,6 +14,10 @@ public class LeyaDateUtils extends DateFormatUtils {
     public static final String YYYY_MM_DDHHMMSS = "yyyy-MM-dd HH:mm:ss";
 
     private static final String YYYYMMDD = "yyyyMMdd";
+    
+    public static final String YYYY_MM_DD = "yyyy-MM-dd";
+    
+    public static final String YYYYMMDDSDECOLLATOR = "yyyy/MM/dd";
 
     public static final String YYYYMMDDHHMMSSSDECOLLATOR = "yyyy/MM/dd HH:mm:ss";
 

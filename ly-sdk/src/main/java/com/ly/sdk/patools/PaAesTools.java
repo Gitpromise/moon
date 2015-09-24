@@ -12,6 +12,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 
 import com.ly.sdk.env.EnvProperties;
+import com.ly.sdk.utils.CipherUtility;
 import com.ly.sdk.utils.LeyaConstantUtils;
 
 /**
@@ -186,8 +187,15 @@ public class PaAesTools {
 		return Base64.encodeBase64String(encrypt(contents, getPassword()));
 	}
 
+	/**
+	 * 
+	 * <p>Description:对私有key进行解密 </p>
+	 * @return 返回解密后的平安私有key
+	 */
 	public static String getPassword() {
-		return EnvProperties.get(PA_CHILDREN_DENTAL_KEY);
+	    String encryKey = EnvProperties.get(PA_CHILDREN_DENTAL_KEY);
+	    String originKey = CipherUtility.AES.decrypt(encryKey);
+		return originKey;
 	}
 
 	/**

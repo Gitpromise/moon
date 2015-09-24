@@ -60,7 +60,7 @@ public class CipherUtilityTest {
     
     @Test
     public void encryPaUserPwd(){
-        String userName = "P_LEYACK_YL";
+        String userName = "AI2ZDCONSH2TBPQVK3F5DRE4DTC4U9AZ1XCIFXE5QZVLE4SI";
         String password = "jt6Ss47N";
         String encryUserName = CipherUtility.AES.encrypt(userName);
         String encryPwd = CipherUtility.AES.encrypt(password);
