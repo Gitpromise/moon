@@ -37,7 +37,7 @@ public class EnvProperties {
         }
     }
     public static String get(String key){
-        return (String)prop.get(key);
+        return prop.getProperty(key);
     }
 
     public static void main(String[] args){
