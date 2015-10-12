@@ -61,8 +61,8 @@ import com.ly.sdk.vo.BaseResponseVo;
  */
 public class LeyaHttpClientUtils {
 
-    private static PoolingHttpClientConnectionManager connManager = null;
-    private static CloseableHttpClient httpclient = null;
+    protected static PoolingHttpClientConnectionManager connManager = null;
+    protected static CloseableHttpClient httpclient = null;
 
     /**
      * 链接超时时间 5min
