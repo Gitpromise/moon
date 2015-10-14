@@ -23,5 +23,9 @@ public class LeyaConstantUtils {
   //平安请求 参数
     public static final String PINGAN_REQUEST_ID = "request_id";
     
+    public final static String DEFAULT_EMAIL_CHECK = "DEFAULT_EMAIL_CHECK";
+
+    public final static String EMAIL_PREFIX = "EMAIL_PREFIX";
+    
     
 }
