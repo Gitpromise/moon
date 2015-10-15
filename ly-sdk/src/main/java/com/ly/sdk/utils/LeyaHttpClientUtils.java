@@ -174,7 +174,6 @@ public class LeyaHttpClientUtils {
                             responseMsg = "请求返回的内容为空";
                         }
                     } else {
-                        httpPost.abort();
                         responseMsg = "请求返回状态码:" + statusCode;
                     }
 
@@ -257,7 +256,6 @@ public class LeyaHttpClientUtils {
                             responseMsg = "请求返回的内容为空";
                         }
                     } else {
-                        httpPost.abort();
                         responseMsg = "请求返回状态码:" + statusCode;
                     }
 
@@ -272,7 +270,7 @@ public class LeyaHttpClientUtils {
                 }
             }
         } catch (Exception e) {
-            responseMsg = "请求出错:msg"+e.getMessage();
+            responseMsg = "请求出错:["+e.getMessage()+"]";
         } finally {
             httpPost.releaseConnection();
         }
@@ -365,7 +363,7 @@ public class LeyaHttpClientUtils {
                     }
                 }
             } catch (Exception e) {
-                responseString = "请求出错:msg"+e.getMessage();
+                responseString = "请求出错:["+e.getMessage()+"]";
             } finally {
                 if (response != null) {
                     response.close();
@@ -373,9 +371,8 @@ public class LeyaHttpClientUtils {
             }
 
         } catch (Exception e) {
-            responseString = "请求出错:msg"+e.getMessage();
+            responseString = "请求执行出错:【"+e.getMessage()+"】";
         } finally {
-            getMethod.abort();
             getMethod.releaseConnection();
         }
         return new BaseResponseVo(responseCode,responseString);
