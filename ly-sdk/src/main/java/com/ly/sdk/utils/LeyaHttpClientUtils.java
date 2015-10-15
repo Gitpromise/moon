@@ -67,7 +67,7 @@ public class LeyaHttpClientUtils {
     /**
      * 链接超时时间 5min
      */
-    public static final int connectTimeout = 1000 * 60 * 5;
+    public static final int connectTimeout = 1000 * 60 * 1;
 
     static {
         try {
@@ -188,8 +188,10 @@ public class LeyaHttpClientUtils {
                 }
             }
         } catch (Exception e) {
-            responseMsg = "请求出错:msg"+e.getMessage();
+            e.printStackTrace();
+            responseMsg = "请求sendPost出错:"+e.getMessage();
         } finally {
+            httpPost.abort();
             httpPost.releaseConnection();
         }
         return new BaseResponseVo(responseCode, responseMsg);
@@ -270,8 +272,10 @@ public class LeyaHttpClientUtils {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             responseMsg = "请求出错:["+e.getMessage()+"]";
         } finally {
+            httpPost.abort();
             httpPost.releaseConnection();
         }
         return new BaseResponseVo(responseCode, responseMsg);
@@ -363,6 +367,7 @@ public class LeyaHttpClientUtils {
                     }
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 responseString = "请求出错:["+e.getMessage()+"]";
             } finally {
                 if (response != null) {
@@ -371,8 +376,10 @@ public class LeyaHttpClientUtils {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             responseString = "请求执行出错:【"+e.getMessage()+"】";
         } finally {
+            getMethod.abort();
             getMethod.releaseConnection();
         }
         return new BaseResponseVo(responseCode,responseString);
