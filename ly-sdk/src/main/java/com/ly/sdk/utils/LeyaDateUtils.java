@@ -2,6 +2,7 @@ package com.ly.sdk.utils;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
@@ -20,6 +21,8 @@ public class LeyaDateUtils extends DateFormatUtils {
     public static final String YYYYMMDDSDECOLLATOR = "yyyy/MM/dd";
 
     public static final String YYYYMMDDHHMMSSSDECOLLATOR = "yyyy/MM/dd HH:mm:ss";
+    //返回样例 2015-10-21 星期三 下午 3:30
+    public static final String CHINESE_PATTERN = "yyyy-MM-dd E a h:mm";
 
     public static String getYYYYMMddStr() {
 
@@ -29,6 +32,17 @@ public class LeyaDateUtils extends DateFormatUtils {
     public static String getYYYYMMDDHHMMSSStr() {
 
         return format(new Date(), YYYYMMDDHHMMSS);
+    }
+    
+    /**
+     * 
+     * <p>Description: 返回时间格式样例</p>
+     * @param pointDate 传人时间 
+     * @return 返回样例 2015-10-21 星期三 下午 3:30
+     */
+    public static String getChinesePattern(Date pointDate) {
+
+        return format(pointDate,CHINESE_PATTERN, Locale.CHINESE);
     }
 
     public static Date parseDateStr(String timeStr, String[] otherFormateStr) {
@@ -53,6 +67,13 @@ public class LeyaDateUtils extends DateFormatUtils {
         return parseDateStr(timeStr, YYYY_MM_DDHHMMSS);
     }
 
+    public static Date parsePointDate(Date originDate,String hour,String minute){
+        String dateStr = format(originDate, YYYY_MM_DD);
+        dateStr += " "+hour+":"+minute;
+        return parseDateStr(dateStr,new String[]{"yyyy-MM-dd HH:mm"});
+    }
+    
+    
     /**
      * 
      * <p>Description: 返回当前系统时间值</p>
@@ -63,7 +84,7 @@ public class LeyaDateUtils extends DateFormatUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(LeyaDateUtils.parseDateStr("2015/8/4 18:35:35", new String[] { YYYY_MM_DDHHMMSS,
-                YYYYMMDDHHMMSSSDECOLLATOR }));
+        Date sms = parsePointDate(new Date(),"12","01");
+        System.out.println(sms);
     }
 }
