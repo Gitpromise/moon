@@ -1,14 +1,13 @@
 package com.leya.sso.member;
 
-import com.leya.sso.util.CookieUtil;
-import com.leya.sso.util.SSOConstant;
-import com.tocersoft.member.entity.Member;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.leya.enitys.member.Member;
+import com.leya.sso.util.SSOConstant;
 
 /**
  * Created by fanshuai on 15/5/3.

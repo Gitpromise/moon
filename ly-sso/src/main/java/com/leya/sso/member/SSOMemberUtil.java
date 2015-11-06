@@ -1,20 +1,20 @@
 package com.leya.sso.member;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.leya.enitys.member.Member;
 import com.leya.sso.util.CookieUtil;
 import com.leya.sso.util.EnvProperties;
 import com.leya.sso.util.SSOConstant;
 import com.leya.util.memcache.client.CacheClient;
-import com.tocersoft.member.entity.Member;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by fanshuai on 15/5/12.
  */
 public class SSOMemberUtil {
-    private static final ThreadLocal<Member> loginMember= new ThreadLocal();
+    private static final ThreadLocal<Member> loginMember= new ThreadLocal<Member>();
 
     public static void setMemberLoginInfoToCache(HttpServletRequest req,HttpServletResponse res,Member member){
         try {

@@ -1,20 +1,20 @@
 package com.leya.sso.institution;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.leya.enitys.institution.Institution;
 import com.leya.sso.util.CookieUtil;
 import com.leya.sso.util.EnvProperties;
 import com.leya.sso.util.SSOConstant;
 import com.leya.util.memcache.client.CacheClient;
-import com.tocersoft.institution.entity.Institution;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by fanshuai on 15/5/23.
  */
 public class SSOInsitutionUtil {
-    private static final ThreadLocal<Institution> loginInstitution = new ThreadLocal();
+    private static final ThreadLocal<Institution> loginInstitution = new ThreadLocal<Institution>();
 
     public static void setInstitutionLoginInfoToCache(HttpServletRequest req,HttpServletResponse res,Institution institution){
         try {
