@@ -4,6 +4,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.ly.sdk.env.EnvProperties;
+
 public class VerifyCode {
 
 	/**
@@ -56,7 +60,14 @@ public class VerifyCode {
 	 * @return 验证码字符串
 	 */
 	public static String generateTextCode(int type, int length, String exChars) {
-
+	    Boolean isTestEnv= Boolean.FALSE;
+        String isTestEnvStr = EnvProperties.get(LeyaConstantUtils.IS_SKIP_VERIFY_CODE);
+        if (StringUtils.isNotBlank(isTestEnvStr)) {
+            isTestEnv = Boolean.valueOf(isTestEnvStr);
+        }
+        if (isTestEnv) {
+            return "0000";
+        }
 		if (length <= 0)
 			return "";
 

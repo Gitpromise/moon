@@ -27,5 +27,7 @@ public class LeyaConstantUtils {
 
     public final static String EMAIL_PREFIX = "EMAIL_PREFIX";
     
+    public static final String IS_SKIP_VERIFY_CODE ="is_skip_verify_code";
+    
     
 }
