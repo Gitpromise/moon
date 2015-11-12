@@ -23,6 +23,8 @@ public class LeyaDateUtils extends DateFormatUtils {
     public static final String YYYYMMDDHHMMSSSDECOLLATOR = "yyyy/MM/dd HH:mm:ss";
     //返回样例 2015-10-21 星期三 下午 3:30
     public static final String CHINESE_PATTERN = "yyyy-MM-dd E a h:mm";
+    
+    public static final String HOURMINUTE_PATTERN = "HH:mm";
 
     public static String getYYYYMMddStr() {
 
