@@ -25,6 +25,8 @@ public class LeyaDateUtils extends DateFormatUtils {
     public static final String CHINESE_PATTERN = "yyyy-MM-dd E a h:mm";
     
     public static final String HOURMINUTE_PATTERN = "HH:mm";
+    
+    public static final String TIMESTEMP_PATTERN ="yyyyMMddHHmmssSSS";
 
     public static String getYYYYMMddStr() {
 
@@ -75,7 +77,14 @@ public class LeyaDateUtils extends DateFormatUtils {
         return parseDateStr(dateStr,new String[]{"yyyy-MM-dd HH:mm"});
     }
     
-    
+    /**
+     * 
+     * <p>Description: 获取timestamp 到毫秒级</p>
+     * @return
+     */
+    public static String getTimeStamp() {
+        return format(new Date(), TIMESTEMP_PATTERN);
+    }
     /**
      * 
      * <p>Description: 返回当前系统时间值</p>
