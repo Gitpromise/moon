@@ -4,6 +4,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.leya.dto_V2.LoginUserDto;
 import com.leya.enitys.member.Member;
 import com.leya.sso.util.CookieUtil;
 import com.leya.sso.util.EnvProperties;
@@ -14,28 +15,28 @@ import com.leya.util.memcache.client.CacheClient;
  * Created by fanshuai on 15/5/12.
  */
 public class SSOMemberUtil {
-    private static final ThreadLocal<Member> loginMember= new ThreadLocal<Member>();
+    private static final ThreadLocal<LoginUserDto> loginMember= new ThreadLocal<LoginUserDto>();
 
-    public static void setMemberLoginInfoToCache(HttpServletRequest req,HttpServletResponse res,Member member){
+    public static void setMemberLoginInfoToCache(HttpServletRequest req,HttpServletResponse res,LoginUserDto loginUser){
         try {
             Cookie cookie = CookieUtil.getCookie(SSOConstant.MEMBER_LOGIN_COOKIE_NAME, req.getCookies());
             if(cookie==null){
                 cookie = new Cookie(SSOConstant.MEMBER_LOGIN_COOKIE_NAME,"");
             }
             String remoteIp = req.getRemoteAddr();
-            String memberLoginCookieValue = CookieUtil.getMemberLoginCookieValue(remoteIp,member.getMemberId());
+            String memberLoginCookieValue = CookieUtil.getMemberLoginCookieValue(remoteIp,loginUser.getLoginUserMasterId());
             cookie.setValue(memberLoginCookieValue);
             cookie.setMaxAge(60*60);
             cookie.setDomain(EnvProperties.get("ssoDomain"));
             cookie.setPath("/");
             res.addCookie(cookie);
-            CacheClient.put(CookieUtil.getMemberLoginMemcacheKey(remoteIp,memberLoginCookieValue), member, 1800);
-            loginMember.set(member);
+            CacheClient.put(CookieUtil.getMemberLoginMemcacheKey(remoteIp,memberLoginCookieValue), loginUser, 1800);
+            loginMember.set(loginUser);
         }catch (Exception e){
             e.printStackTrace();
         }
     }
-    public static Member getMemberLoginInfoToCache(HttpServletRequest req){
+    public static LoginUserDto getMemberLoginInfoToCache(HttpServletRequest req){
         try {
             Cookie cookie = CookieUtil.getCookie(SSOConstant.MEMBER_LOGIN_COOKIE_NAME, req.getCookies());
             if(cookie==null){
@@ -43,7 +44,7 @@ public class SSOMemberUtil {
             }
             String remoteIp = req.getRemoteAddr();
             String memberLoginCookieValue = cookie.getValue();
-            Member member = (Member)CacheClient.get(CookieUtil.getMemberLoginMemcacheKey(remoteIp, memberLoginCookieValue));
+            LoginUserDto member = (LoginUserDto)CacheClient.get(CookieUtil.getMemberLoginMemcacheKey(remoteIp, memberLoginCookieValue));
             return member;
         }catch (Exception e){
             e.printStackTrace();
@@ -64,10 +65,10 @@ public class SSOMemberUtil {
             e.printStackTrace();
         }
     }
-    public static Member getLoginMember(){
+    public static LoginUserDto getLoginMember(){
         return loginMember.get();
     }
-    public static void setLoginMember(Member member){
+    public static void setLoginMember(LoginUserDto member){
         loginMember.set(member);
     }
     public static void removeLoginMember(){

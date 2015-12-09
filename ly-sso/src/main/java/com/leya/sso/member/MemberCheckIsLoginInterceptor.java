@@ -3,6 +3,7 @@ package com.leya.sso.member;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.leya.dto_V2.LoginUserDto;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,7 +17,7 @@ public class MemberCheckIsLoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object o) throws Exception {
-        Member loginMember = SSOMemberUtil.getMemberLoginInfoToCache(req);
+        LoginUserDto loginMember = SSOMemberUtil.getMemberLoginInfoToCache(req);
         if(loginMember==null){
             res.sendRedirect(SSOConstant.memberLoginUrl);
             return false;
