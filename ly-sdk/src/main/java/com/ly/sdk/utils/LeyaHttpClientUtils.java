@@ -1,5 +1,8 @@
 package com.ly.sdk.utils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.CodingErrorAction;
@@ -119,34 +122,45 @@ public class LeyaHttpClientUtils {
 
     /**
      * 
-     * <p>Description: TODO</p>
+     * <p>
+     * Description: TODO
+     * </p>
+     * 
      * @param url
      * @param paramsMap
      * @return
      */
-    public static BaseResponseVo sendPost(String url,Map<String, String> paramsMap){
+    public static BaseResponseVo sendPost(String url, Map<String, String> paramsMap) {
         return sendPost(url, connectTimeout, paramsMap, LeyaConstantUtils.DEFAULT_ENCODING, HeaderContentTypeEnum.NONE);
     }
-    
+
     /**
      * 
-     * <p>Description: TODO</p>
+     * <p>
+     * Description: TODO
+     * </p>
+     * 
      * @param url
      * @param paramsMap
      * @return
      */
-    public static BaseResponseVo sendJsonPost(String url,Map<String, String> paramsMap){
-        return sendPost(url, connectTimeout, paramsMap, LeyaConstantUtils.DEFAULT_ENCODING, HeaderContentTypeEnum.APPLICATION_JSON);
+    public static BaseResponseVo sendJsonPost(String url, Map<String, String> paramsMap) {
+        return sendPost(url, connectTimeout, paramsMap, LeyaConstantUtils.DEFAULT_ENCODING,
+                HeaderContentTypeEnum.APPLICATION_JSON);
     }
+
     /**
      * 
-     * <p>Description: 发送post请求</p>
+     * <p>
+     * Description: 发送post请求
+     * </p>
+     * 
      * @param url 请求的url
      * @param timeout 设置超时时间
      * @param paramsMap 请求的参数
-     * @param encoding  设置编码格式 一般不需要设置 使用utf-8
+     * @param encoding 设置编码格式 一般不需要设置 使用utf-8
      * @param contentType 设置请求contentType
-     * @return 返回响应的 vo 
+     * @return 返回响应的 vo
      */
     public static BaseResponseVo sendPost(String url, int timeout, Map<String, String> paramsMap, String encoding,
             HeaderContentTypeEnum contentType) {
@@ -189,47 +203,58 @@ public class LeyaHttpClientUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            responseMsg = "请求sendPost出错:"+e.getMessage();
+            responseMsg = "请求sendPost出错:" + e.getMessage();
         } finally {
             httpPost.abort();
             httpPost.releaseConnection();
         }
         return new BaseResponseVo(responseCode, responseMsg);
     }
-    
-    
+
     /**
      * 
-     * <p>Description: TODO</p>
+     * <p>
+     * Description: TODO
+     * </p>
+     * 
      * @param url
      * @param paramsMap
      * @return
      */
-    public static BaseResponseVo sendPostJsonData(String url,String postData){
-        return sendDataPost(url, connectTimeout, postData, LeyaConstantUtils.DEFAULT_ENCODING, HeaderContentTypeEnum.APPLICATION_JSON);
+    public static BaseResponseVo sendPostJsonData(String url, String postData) {
+        return sendDataPost(url, connectTimeout, postData, LeyaConstantUtils.DEFAULT_ENCODING,
+                HeaderContentTypeEnum.APPLICATION_JSON);
     }
-    
+
     /**
      * 
-     * <p>Description: TODO</p>
+     * <p>
+     * Description: TODO
+     * </p>
+     * 
      * @param url
      * @param paramsMap
      * @return
      */
-    public static BaseResponseVo sendPostJsonData(String url,String postData,int connectTimeout){
-        return sendDataPost(url, connectTimeout, postData, LeyaConstantUtils.DEFAULT_ENCODING, HeaderContentTypeEnum.APPLICATION_JSON);
+    public static BaseResponseVo sendPostJsonData(String url, String postData, int connectTimeout) {
+        return sendDataPost(url, connectTimeout, postData, LeyaConstantUtils.DEFAULT_ENCODING,
+                HeaderContentTypeEnum.APPLICATION_JSON);
     }
+
     /**
      * 
-     * <p>Description: 发送post请求</p>
+     * <p>
+     * Description: 发送post请求
+     * </p>
+     * 
      * @param url 请求的url
      * @param timeout 设置超时时间
      * @param postData 请求的参数内容
-     * @param encoding  设置编码格式 一般不需要设置 使用utf-8
+     * @param encoding 设置编码格式 一般不需要设置 使用utf-8
      * @param contentType 设置请求contentType
-     * @return 返回响应的 vo 
+     * @return 返回响应的 vo
      */
-    public static BaseResponseVo sendDataPost(String url, int timeout,String postData, String encoding,
+    public static BaseResponseVo sendDataPost(String url, int timeout, String postData, String encoding,
             HeaderContentTypeEnum contentType) {
         String responseCode = LeyaConstantUtils.FAILURE_RESPONSE;
         String responseMsg = "";
@@ -242,7 +267,7 @@ public class LeyaHttpClientUtils {
             //设置请求参数
             String body = postData;
             //System.out.println(body);
-            HttpEntity httpEntity = new StringEntity(body,encoding);
+            HttpEntity httpEntity = new StringEntity(body, encoding);
             httpPost.setEntity(httpEntity);
             CloseableHttpResponse response = httpclient.execute(httpPost);
             try {
@@ -273,7 +298,7 @@ public class LeyaHttpClientUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            responseMsg = "请求出错:["+e.getMessage()+"]";
+            responseMsg = "请求出错:[" + e.getMessage() + "]";
         } finally {
             httpPost.abort();
             httpPost.releaseConnection();
@@ -283,46 +308,59 @@ public class LeyaHttpClientUtils {
 
     /**
      * 
-     * <p>Description: TODO</p>
+     * <p>
+     * Description: TODO
+     * </p>
+     * 
      * @param url
      * @return
      */
-    public static BaseResponseVo invokeJosnGet(String url){
-        return invokeGet(url, null, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout,HeaderContentTypeEnum.APPLICATION_JSON);
+    public static BaseResponseVo invokeJosnGet(String url) {
+        return invokeGet(url, null, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout,
+                HeaderContentTypeEnum.APPLICATION_JSON);
     }
-    
-    public static BaseResponseVo invokeGet(String url,HeaderContentTypeEnum contentType){
-        return invokeGet(url, null, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout,contentType);
+
+    public static BaseResponseVo invokeGet(String url, HeaderContentTypeEnum contentType) {
+        return invokeGet(url, null, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout, contentType);
     }
-    
+
     /**
      * 
-     * <p>Description: 	请求json格式数据</p>
+     * <p>
+     * Description: 请求json格式数据
+     * </p>
+     * 
      * @param url
-     *  @param params
+     * @param params
      * @return
      */
-    public static BaseResponseVo invokeJsonGet(String url,Map<String, String> params){
-        return invokeGet(url, params, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout,HeaderContentTypeEnum.APPLICATION_JSON);
+    public static BaseResponseVo invokeJsonGet(String url, Map<String, String> params) {
+        return invokeGet(url, params, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout,
+                HeaderContentTypeEnum.APPLICATION_JSON);
     }
-    
-    public static BaseResponseVo invokeGet(String url,Map<String, String> params,HeaderContentTypeEnum contentType){
-        return invokeGet(url, params, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout,contentType);
+
+    public static BaseResponseVo invokeGet(String url, Map<String, String> params, HeaderContentTypeEnum contentType) {
+        return invokeGet(url, params, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout, contentType);
     }
-    public static BaseResponseVo invokeGet(String url){
-        return invokeGet(url, null, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout,HeaderContentTypeEnum.NONE);
+
+    public static BaseResponseVo invokeGet(String url) {
+        return invokeGet(url, null, LeyaConstantUtils.DEFAULT_ENCODING, connectTimeout, HeaderContentTypeEnum.NONE);
     }
-    
+
     /**
      * 
-     * <p>Description: 执行get请求</p>
+     * <p>
+     * Description: 执行get请求
+     * </p>
+     * 
      * @param url 请求url
      * @param params 请求参数
      * @param encode 编码方式
      * @param connectTimeout 超时时间
      * @return
      */
-    public static BaseResponseVo invokeGet(String url, Map<String, String> params, String encode, int connectTimeout,HeaderContentTypeEnum contentType) {
+    public static BaseResponseVo invokeGet(String url, Map<String, String> params, String encode, int connectTimeout,
+            HeaderContentTypeEnum contentType) {
         String responseString = "";
         String responseCode = LeyaConstantUtils.FAILURE_RESPONSE;
         RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(connectTimeout)
@@ -348,9 +386,9 @@ public class LeyaHttpClientUtils {
                 i++;
             }
         }
-       
+
         HttpGet getMethod = new HttpGet(sb.toString());
-        setGetHeaderContentType(getMethod,contentType);
+        setGetHeaderContentType(getMethod, contentType);
         getMethod.setConfig(requestConfig);
         try {
             CloseableHttpResponse response = httpclient.execute(getMethod);
@@ -368,7 +406,7 @@ public class LeyaHttpClientUtils {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                responseString = "请求出错:["+e.getMessage()+"]";
+                responseString = "请求出错:[" + e.getMessage() + "]";
             } finally {
                 if (response != null) {
                     response.close();
@@ -377,12 +415,66 @@ public class LeyaHttpClientUtils {
 
         } catch (Exception e) {
             e.printStackTrace();
-            responseString = "请求执行出错:【"+e.getMessage()+"】";
+            responseString = "请求执行出错:【" + e.getMessage() + "】";
         } finally {
             getMethod.abort();
             getMethod.releaseConnection();
         }
-        return new BaseResponseVo(responseCode,responseString);
+        return new BaseResponseVo(responseCode, responseString);
+    }
+
+    /**
+     * 
+     * <p>
+     * Description: 执行get下载请求
+     * </p>
+     * 
+     * @param url 请求url
+     * @return
+     */
+    public static void downloadUseGet(String url,String filepath) {
+        RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(connectTimeout)
+                .setConnectTimeout(connectTimeout).setConnectionRequestTimeout(connectTimeout).build();
+        HttpGet getMethod = new HttpGet(url);
+        getMethod.setConfig(requestConfig);
+        InputStream is = null;
+        try {
+            CloseableHttpResponse response = httpclient.execute(getMethod);
+            try {
+                HttpEntity entity = response.getEntity();
+                if (entity != null) {
+                    is = entity.getContent();
+                    if(null != is){
+                        File file = new File(filepath); 
+                        FileOutputStream fileout = new FileOutputStream(file);  
+                        /** 
+                         * 根据实际运行效果 设置缓冲区大小 
+                         */  
+                        byte[] buffer=new byte[10*1024];  
+                        int ch = 0;  
+                        while ((ch = is.read(buffer)) != -1) {  
+                            fileout.write(buffer,0,ch);  
+                        }  
+                        is.close();  
+                        fileout.flush();  
+                        fileout.close();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (response != null) {
+                    response.close();
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            getMethod.abort();
+            getMethod.releaseConnection();
+        }
+       
     }
 
     /**
@@ -473,19 +565,20 @@ public class LeyaHttpClientUtils {
             break;
         }
     }
+
     private static void setGetHeaderContentType(HttpGet httpGet, HeaderContentTypeEnum contentType) {
         switch (contentType) {
         case APPLICATION_JSON:
-        	httpGet.addHeader("Content-Type", "application/json;charset=UTF-8");
-        	httpGet.addHeader("Accept", "application/json;charset=UTF-8");
+            httpGet.addHeader("Content-Type", "application/json;charset=UTF-8");
+            httpGet.addHeader("Accept", "application/json;charset=UTF-8");
             break;
         case APPLICATION_XML:
-        	httpGet.addHeader("Content-Type", "application/xml;charset=UTF-8");
-        	httpGet.addHeader("Accept", "application/xml;charset=UTF-8");
+            httpGet.addHeader("Content-Type", "application/xml;charset=UTF-8");
+            httpGet.addHeader("Accept", "application/xml;charset=UTF-8");
             break;
         case TXT_PLAIN:
-        	httpGet.addHeader("Content-Type", "text/plain;charset=UTF-8");
-        	httpGet.addHeader("Accept", "text/plain;charset=UTF-8");
+            httpGet.addHeader("Content-Type", "text/plain;charset=UTF-8");
+            httpGet.addHeader("Accept", "text/plain;charset=UTF-8");
             break;
         case NONE:
             break;

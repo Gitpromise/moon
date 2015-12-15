@@ -11,6 +11,7 @@
 	<packaging>jar</packaging>
 	<properties>
 		<httpclient.version>4.3</httpclient.version>
+		<commons-net-version>3.0.1</commons-net-version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -37,6 +38,11 @@
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 			<version>3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>${commons-net-version}</version>
 		</dependency>
 	</dependencies>
 </project>
