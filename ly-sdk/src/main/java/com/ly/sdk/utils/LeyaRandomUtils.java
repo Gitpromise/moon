@@ -55,6 +55,11 @@ public class LeyaRandomUtils {
         }
         return numStr;
     }
+    
+    public static String getUUID() {
+        String uuid=java.util.UUID.randomUUID().toString();
+        return uuid.replaceAll("-", "");
+    }
 
     private static String getOneRandomStr(String[] baseStr, Boolean isZeroRepeat) {
         int baseNumLen = baseStr.length;
