@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * 
@@ -12,8 +13,9 @@ import java.io.InputStream;
  * <p>Author: Administrator</p>
  * <p>Date: 2016年1月14日</p>
  */
-public class FtpProperties extends BaseEnvProperties {
+public class FtpProperties {
     private static String ftpFilePath = "/data/env/ftp_config.properties";
+    private static Properties prop = new Properties();
 
     static {
         InputStream in = null;
@@ -30,7 +32,7 @@ public class FtpProperties extends BaseEnvProperties {
                         + file.getAbsolutePath());
             }
         } catch (Exception e) {
-            throw new RuntimeException("init sms properties error :"
+            throw new RuntimeException("init ftp properties error :"
                     + e.getMessage());
         } finally {
             try {
@@ -41,5 +43,8 @@ public class FtpProperties extends BaseEnvProperties {
                 in = null;
             }
         }
+    }
+    public static String getString(String key) {
+        return prop.getProperty(key);
     }
 }

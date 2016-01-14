@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Properties;
 
-public class SmsEnvProperties extends BaseEnvProperties {
+public class SmsEnvProperties  {
     private static String smsFilePath = "/data/env/sms_msg.properties";
-
+    private static Properties prop = new Properties();
     static {
         InputStream in = null;
         try {
@@ -35,5 +36,10 @@ public class SmsEnvProperties extends BaseEnvProperties {
             }
         }
     }
-
+    public static String getString(String key) {
+        return prop.getProperty(key);
+    }
+    public static String get(String key) {
+        return (String) prop.get(key);
+    }
 }
