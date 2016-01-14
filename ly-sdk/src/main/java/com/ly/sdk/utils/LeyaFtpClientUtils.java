@@ -39,7 +39,7 @@ public class LeyaFtpClientUtils {
         InputStream in = null;
 
         try {
-            in = new FileInputStream("/data/env/appconfig.properties");
+            in = new FileInputStream("/data/env/ftp_config.properties");
             if (in != null) {
                 prop.load(in);
                 getConstant();
