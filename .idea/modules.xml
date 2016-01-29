@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/beyondthemoon.iml" filepath="$PROJECT_DIR$/beyondthemoon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/moonapi/moonapi.iml" filepath="$PROJECT_DIR$/moonapi/moonapi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/moonservice/moonservice.iml" filepath="$PROJECT_DIR$/moonservice/moonservice.iml" />
+    </modules>
+  </component>
+</project>

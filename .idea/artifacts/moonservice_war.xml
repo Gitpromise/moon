@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="moonservice:war">
+    <output-path>$PROJECT_DIR$/moonservice/target</output-path>
+    <root id="archive" name="moonservice.war">
+      <element id="artifact" artifact-name="moonservice:war exploded" />
+    </root>
+  </artifact>
+</component>
