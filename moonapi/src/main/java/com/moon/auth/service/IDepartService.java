@@ -3,6 +3,7 @@ package com.moon.auth.service;
 
 import com.moon.auth.entity.Depart;
 
+
 public interface IDepartService {
 
 

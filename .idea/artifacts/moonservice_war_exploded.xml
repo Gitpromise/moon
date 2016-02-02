@@ -7,9 +7,7 @@
           <element id="module-output" name="moonservice" />
         </element>
         <element id="directory" name="lib">
-          <element id="archive" name="moonapi-1.0-SNAPSHOT.jar">
-            <element id="module-output" name="moonapi" />
-          </element>
+          <element id="library" level="project" name="Maven: com.moon:moonapi:1.0-SNAPSHOT" />
           <element id="library" level="project" name="Maven: org.projectlombok:lombok:1.12.6" />
           <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.1.41" />
           <element id="library" level="project" name="Maven: org.springframework:spring-core:4.0.2.RELEASE" />

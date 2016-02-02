@@ -8,5 +8,7 @@
 	<typeAliases>
 		<!-- 基础操作权限 -->
 		<typeAlias alias="depart" type="com.moon.auth.entity.Depart" />
+
+		<typeAlias alias="institution" type="com.moon.institution.entity.Institution" />
 	</typeAliases>
 </configuration>

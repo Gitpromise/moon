@@ -1,0 +1,1244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tocersoft.institution.dao.IInstitutionDao">
+	<resultMap type="institution" id="institutionResultMap">
+		<!--ID -->
+		<id property="id" column="ID" />
+		<!--创建人 -->
+		<result property="createBy" column="C_CREATE_BY" />
+		<!--创建时间 -->
+		<result property="createDate" column="C_CREATE_DATE" />
+		<!--更新人 -->
+		<result property="updateBy" column="C_UPDATE_BY" />
+		<!--更新时间 -->
+		<result property="updateDate" column="C_UPDATE_DATE" />
+		<!--删除标记：0-未删除，1-已删除 -->
+		<result property="deleteFlag" column="C_DELETE_FLAG" />
+		<!--机构编号，（J+注册年月日+4个编号） -->
+		<result property="institutionNo" column="C_INSTITUTION_NO" />
+		<!--机构名称 -->
+		<result property="name" column="C_NAME" />
+		<!--机构账号 -->
+		<result property="account" column="C_ACCOUNT" />
+		<!--机构密码 -->
+		<result property="password" column="C_PASSWORD" />
+
+		<!--是否推荐，0-否，1-是 -->
+		<result property="isRecommend" column="C_IS_RECOMMEND" />
+		<!--推荐度 -->
+		<result property="recommend" column="C_RECOMMEND" />
+		<!--状态：0-注册完成、1、基本信息已完成、2-资料已完善、3-预约已设定、4-已上传合约、5-已签订合约、6-审核通过、7-审核不通过。 -->
+		<result property="status" column="C_STATUS" />
+		<!--打回原因 -->
+		<result property="reason" column="C_REASON" />
+		<!--启用状态0：启用；1：禁用 -->
+		<result property="usingStatus" column="C_USING_STATUS" />
+		<!--合约地址-->
+		<result property="hyUrl" column="C_HY_URL" />
+
+		<result property="address" column="C_ADDRESS"/>
+		<result property="appointCount" column="C_APPOINT_COUNT"/>
+		<!--认证度-->
+		<result property="authentcationRate" column="C_AUTHENTCATION_RATE"/>
+		<!--认证状态：0-未认证 ， 1-认证申请中 ，2-资料已审核，复审中，3-已认证，4-认证不通过-->
+		<result property="authentcationStatus" column="C_AUTHENTCATION_STATUS"/>
+		<!--注册完成审核：0-未审核 1-已审核-->
+		<result property="trial" column="C_TRIAL"/>
+		<!--认证度-->
+		<result property="blStatus" column="C_BL_STATUS"/>
+		<!--认证度-->
+		<result property="miblStatus" column="C_MIBL_STATUS"/>
+		<!-- 是否支持社保:0-支持 1-不支持 -->
+		<result property="supportSocialSecurity" column="C_SUPPORT_SOCIAL_SECURITY"/>
+		<!-- 推荐状态:0-自动 1-手动 2-置顶 -->
+		<result property="finerStatus" column="C_FinerStatus"/>
+		<!-- 0-不置顶 1-置顶  -->
+		<result property="finerStick" column="C_FinerStick"/>
+
+	</resultMap>
+
+	<sql id="allColumnSql">
+		o.ID,
+		o.C_CREATE_BY,
+		o.C_CREATE_DATE,
+		o.C_UPDATE_BY,
+		o.C_UPDATE_DATE,
+		o.C_DELETE_FLAG,
+		o.C_INSTITUTION_NO,
+		o.C_NAME,
+		o.C_ACCOUNT,
+		o.C_PASSWORD,
+		o.C_IS_RECOMMEND,
+		o.C_RECOMMEND,
+		o.C_STATUS,
+		o.C_REASON,
+		o.C_USING_STATUS,
+		o.C_HY_URL,
+		o.C_AUTHENTCATION_RATE,
+		o.C_AUTHENTCATION_STATUS,
+		o.C_TRIAL,
+		o.C_BL_STATUS,
+		o.C_MIBL_STATUS,
+		o.C_SUPPORT_SOCIAL_SECURITY,
+		o.C_FinerStatus,
+		o.C_FinerStick
+	</sql>
+
+
+
+	<sql id="searchConditionSql">
+		<if test="condition.institutionNo != null and condition.institutionNo != ''">
+			AND o.C_INSTITUTION_NO like '%${condition.institutionNo}%'
+		</if>
+		<if test="condition.name != null and condition.name != ''">
+			AND o.C_NAME like '%${condition.name}%'
+		</if>
+		<if test="condition.account != null and condition.account != ''">
+			AND o.C_ACCOUNT like '%${condition.account}%'
+		</if>
+		<if test="condition.password != null and condition.password != ''">
+			AND o.C_PASSWORD like '%${condition.password}%'
+		</if>
+		<if test="condition.usingStatus != null and condition.usingStatus != -1">
+			AND o.C_USING_STATUS = #{condition.usingStatus}
+		</if>
+		<if test="condition.isRecommend != null and condition.isRecommend != -1">
+			AND o.C_IS_RECOMMEND = #{condition.isRecommend}
+		</if>
+		<if test="condition.status != null and condition.status != -1">
+			AND o.C_STATUS = #{condition.status}
+		</if>
+		<if test="condition.authentcationStatus != null and condition.authentcationStatus != -1">
+			AND o.C_AUTHENTCATION_STATUS = #{condition.authentcationStatus}
+		</if>
+		<if test="condition.authentcationRate != null and condition.authentcationRate != -1">
+			AND o.C_AUTHENTCATION_RATE = #{condition.authentcationRate}
+		</if>
+		<if test="condition.trial != null and condition.trial != -1">
+			AND o.C_TRIAL = #{condition.trial}
+		</if>
+		<if test="condition.blStatus != null and condition.blStatus != -1">
+			AND o.C_BL_STATUS = #{condition.blStatus}
+		</if>
+		<if test="condition.miblStatus != null and condition.miblStatus != -1">
+			AND o.C_MIBL_STATUS = #{condition.miblStatus}
+		</if>
+
+		<if test="condition.institutionState != null and condition.institutionState.length != 0">
+			AND o.C_STATUS IN
+			<foreach collection="condition.institutionState" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="condition.classify != null and condition.classify != ''">
+			AND o1.C_CLASSIFY like '%${condition.classify}%'
+		</if>
+		<!--<if test="condition.cityId != null and condition.cityId !=''">
+			AND o1.C_CITY_ID = #{condition.cityId}
+		</if>-->
+		<if test="condition.provinceId != null and condition.provinceId !=''">
+			AND o1.C_PROVINCE_ID = #{condition.provinceId}
+		</if>
+		<if test="condition.ocStatus != null and condition.ocStatus != -1">
+			AND o1.C_STATUS = #{condition.ocStatus}
+		</if>
+		<if test="condition.executivePhone != null and condition.executivePhone !=''">
+			AND o1.C_EXECUTIVE_PHONE like '%${condition.executivePhone}%'
+		</if>
+		<if test="condition.email != null and condition.email !=''">
+			AND o1.C_EMAIL like '%${condition.email}%'
+		</if>
+		<if test="condition.districtId != null and condition.districtId !=''">
+			AND o1.C_DISTRICT_ID = #{condition.districtId}
+		</if>
+		<if test="condition.cardId != null and condition.cardId != ''">
+			AND o.ID IN(
+			select C_INSTITUTION_ID from institution_activity  where C_ACTIVITY_ID = #{condition.cardId}
+			AND C_STATUS = 1
+			)
+		</if>
+		<if test="condition.serverItemId != null and condition.serverItemId != ''">
+			AND o.ID IN(
+			select ii.C_INSTITUTION_ID from card_service_item  csi
+			left join  institution_service_item ii on csi.id= ii.C_ITEM_ID
+			where csi.C_PARENT_ID =#{condition.serverItemId} and csi.C_PARENT_ID != 1
+			)
+		</if>
+		<if test="condition.appointDate != null">
+			AND o2.C_APPOINT_DATE = #{condition.appointDate}
+		</if>
+		<if test="condition.supportSocialSecurity != null and condition.supportSocialSecurity != -1">
+			AND o.C_SUPPORT_SOCIAL_SECURITY = #{condition.supportSocialSecurity}
+		</if>
+	</sql>
+
+	<sql id="searchConditionSqlshi">
+		<if test="condition.institutionNo != null and condition.institutionNo != ''">
+			AND o.C_INSTITUTION_NO like '%${condition.institutionNo}%'
+		</if>
+		<if test="condition.name != null and condition.name != ''">
+			AND o.C_NAME like '%${condition.name}%'
+		</if>
+		<if test="condition.account != null and condition.account != ''">
+			AND o.C_ACCOUNT like '%${condition.account}%'
+		</if>
+		<if test="condition.password != null and condition.password != ''">
+			AND o.C_PASSWORD like '%${condition.password}%'
+		</if>
+		<if test="condition.usingStatus != null and condition.usingStatus != -1">
+			AND o.C_USING_STATUS = #{condition.usingStatus}
+		</if>
+		<if test="condition.isRecommend != null and condition.isRecommend != -1">
+			AND o.C_IS_RECOMMEND = #{condition.isRecommend}
+		</if>
+		<if test="condition.status != null and condition.status != -1">
+			AND o.C_STATUS = #{condition.status}
+		</if>
+		<if test="condition.authentcationStatus != null and condition.authentcationStatus != -1">
+			AND o.C_AUTHENTCATION_STATUS = #{condition.authentcationStatus}
+		</if>
+		<if test="condition.authentcationRate != null and condition.authentcationRate != -1">
+			AND o.C_AUTHENTCATION_RATE = #{condition.authentcationRate}
+		</if>
+		<if test="condition.trial != null and condition.trial != -1">
+			AND o.C_TRIAL = #{condition.trial}
+		</if>
+		<if test="condition.blStatus != null and condition.blStatus != -1">
+			AND o.C_BL_STATUS = #{condition.blStatus}
+		</if>
+		<if test="condition.miblStatus != null and condition.miblStatus != -1">
+			AND o.C_MIBL_STATUS = #{condition.miblStatus}
+		</if>
+
+		<if test="condition.institutionState != null and condition.institutionState.length != 0">
+			AND o.C_STATUS IN
+			<foreach collection="condition.institutionState" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="condition.classify != null and condition.classify != ''">
+			AND o1.C_CLASSIFY like '%${condition.classify}%'
+		</if>
+		<if test="condition.cityId != null and condition.cityId !=''">
+			AND o1.C_CITY_ID = #{condition.cityId}
+		</if>
+		<if test="condition.provinceId != null and condition.provinceId !=''">
+			AND o1.C_PROVINCE_ID = #{condition.provinceId}
+		</if>
+		<if test="condition.ocStatus != null and condition.ocStatus != -1">
+			AND o1.C_STATUS = #{condition.ocStatus}
+		</if>
+		<if test="condition.executivePhone != null and condition.executivePhone !=''">
+			AND o1.C_EXECUTIVE_PHONE like '%${condition.executivePhone}%'
+		</if>
+		<if test="condition.email != null and condition.email !=''">
+			AND o1.C_EMAIL like '%${condition.email}%'
+		</if>
+		<if test="condition.districtId != null and condition.districtId !=''">
+			AND o1.C_DISTRICT_ID = #{condition.districtId}
+		</if>
+		<if test="condition.cardId != null and condition.cardId != ''">
+			AND o.ID IN(
+			select C_INSTITUTION_ID from institution_activity  where C_ACTIVITY_ID = #{condition.cardId}
+			AND C_STATUS = 1
+			)
+		</if>
+		<if test="condition.serverItemId != null and condition.serverItemId != ''">
+			AND o.ID IN(
+			select ii.C_INSTITUTION_ID from card_service_item  csi
+			left join  institution_service_item ii on csi.id= ii.C_ITEM_ID
+			where csi.C_PARENT_ID =#{condition.serverItemId} and csi.C_PARENT_ID != 1
+			)
+		</if>
+		<if test="condition.appointDate != null">
+			AND o2.C_APPOINT_DATE = #{condition.appointDate}
+		</if>
+		<if test="condition.supportSocialSecurity != null and condition.supportSocialSecurity != -1">
+			AND o.C_SUPPORT_SOCIAL_SECURITY = #{condition.supportSocialSecurity}
+		</if>
+	</sql>
+
+	<sql id="searchConditionSqlTWO">
+		<if test="condition.institutionNo != null and condition.institutionNo != ''">
+			AND o.C_INSTITUTION_NO like '%${condition.institutionNo}%'
+		</if>
+		<if test="condition.name != null and condition.name != ''">
+			AND o.C_NAME  LIKE  '%${condition.name}%'
+		</if>
+		<if test="condition.account != null and condition.account != ''">
+			AND o.C_ACCOUNT like '%${condition.account}%'
+		</if>
+		<if test="condition.password != null and condition.password != ''">
+			AND o.C_PASSWORD like '%${condition.password}%'
+		</if>
+		<if test="condition.usingStatus != null and condition.usingStatus != -1">
+			AND o.C_USING_STATUS = #{condition.usingStatus}
+		</if>
+		<if test="condition.isRecommend != null and condition.isRecommend != -1">
+			AND o.C_IS_RECOMMEND = #{condition.isRecommend}
+		</if>
+		<if test="condition.status != null and condition.status != -1">
+			AND o.C_STATUS = #{condition.status}
+		</if>
+		<if test="condition.authentcationStatus != null and condition.authentcationStatus != -1">
+			AND o.C_AUTHENTCATION_STATUS = #{condition.authentcationStatus}
+		</if>
+		<if test="condition.authentcationRate != null and condition.authentcationRate != -1">
+			AND o.C_AUTHENTCATION_RATE = #{condition.authentcationRate}
+		</if>
+		<if test="condition.trial != null and condition.trial != -1">
+			AND o.C_TRIAL = #{condition.trial}
+		</if>
+		<if test="condition.blStatus != null and condition.blStatus != -1">
+			AND o.C_BL_STATUS = #{condition.blStatus}
+		</if>
+		<if test="condition.miblStatus != null and condition.miblStatus != -1">
+			AND o.C_MIBL_STATUS = #{condition.miblStatus}
+		</if>
+
+		<if test="condition.institutionState != null and condition.institutionState.length != 0">
+			AND o.C_STATUS IN
+			<foreach collection="condition.institutionState" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="condition.classify != null and condition.classify != ''">
+			AND o1.C_CLASSIFY like '%${condition.classify}%'
+		</if>
+		<if test="condition.cityId != null and condition.cityId !=''">
+			AND o1.C_CITY_ID != #{condition.cityId}
+		</if>
+		<if test="condition.provinceId != null and condition.provinceId !=''">
+			AND o1.C_PROVINCE_ID = #{condition.provinceId}
+		</if>
+		<if test="condition.ocStatus != null and condition.ocStatus != -1">
+			AND o1.C_STATUS = #{condition.ocStatus}
+		</if>
+		<if test="condition.executivePhone != null and condition.executivePhone !=''">
+			AND o1.C_EXECUTIVE_PHONE like '%${condition.executivePhone}%'
+		</if>
+		<if test="condition.email != null and condition.email !=''">
+			AND o1.C_EMAIL like '%${condition.email}%'
+		</if>
+		<if test="condition.districtId != null and condition.districtId !=''">
+			AND o1.C_DISTRICT_ID = #{condition.districtId}
+		</if>
+		<if test="condition.cardId != null and condition.cardId != ''">
+			AND o.ID IN(
+			select C_INSTITUTION_ID from institution_activity  where C_ACTIVITY_ID = #{condition.cardId}
+			AND C_STATUS = 1
+			)
+		</if>
+		<if test="condition.serverItemId != null and condition.serverItemId != ''">
+			AND o.ID IN(
+			select ii.C_INSTITUTION_ID from card_service_item  csi
+			left join  institution_service_item ii on csi.id= ii.C_ITEM_ID
+			where csi.C_PARENT_ID =#{condition.serverItemId} and csi.C_PARENT_ID != 1
+			)
+		</if>
+		<if test="condition.appointDate != null">
+			AND o2.C_APPOINT_DATE = #{condition.appointDate}
+		</if>
+		<if test="condition.supportSocialSecurity != null and condition.supportSocialSecurity != -1">
+			AND o.C_SUPPORT_SOCIAL_SECURITY = #{condition.supportSocialSecurity}
+		</if>
+	</sql>
+
+	<sql id="searchConditionSqlThree">
+		<if test="condition.institutionNo != null and condition.institutionNo != ''">
+			AND o.C_INSTITUTION_NO like '%${condition.institutionNo}%'
+		</if>
+		<if test="condition.name != null and condition.name != ''">
+			AND o.C_NAME like '%${condition.name}%'
+		</if>
+		<if test="condition.account != null and condition.account != ''">
+			AND o.C_ACCOUNT like '%${condition.account}%'
+		</if>
+		<if test="condition.password != null and condition.password != ''">
+			AND o.C_PASSWORD like '%${condition.password}%'
+		</if>
+		<if test="condition.usingStatus != null and condition.usingStatus != -1">
+			AND o.C_USING_STATUS = #{condition.usingStatus}
+		</if>
+		<if test="condition.isRecommend != null and condition.isRecommend != -1">
+			AND o.C_IS_RECOMMEND = #{condition.isRecommend}
+		</if>
+		<if test="condition.status != null and condition.status != -1">
+			AND o.C_STATUS = #{condition.status}
+		</if>
+		<if test="condition.authentcationStatus != null and condition.authentcationStatus != -1">
+			AND o.C_AUTHENTCATION_STATUS = #{condition.authentcationStatus}
+		</if>
+		<if test="condition.authentcationRate != null and condition.authentcationRate != -1">
+			AND o.C_AUTHENTCATION_RATE = #{condition.authentcationRate}
+		</if>
+		<if test="condition.trial != null and condition.trial != -1">
+			AND o.C_TRIAL = #{condition.trial}
+		</if>
+		<if test="condition.blStatus != null and condition.blStatus != -1">
+			AND o.C_BL_STATUS = #{condition.blStatus}
+		</if>
+		<if test="condition.miblStatus != null and condition.miblStatus != -1">
+			AND o.C_MIBL_STATUS = #{condition.miblStatus}
+		</if>
+
+		<if test="condition.institutionState != null and condition.institutionState.length != 0">
+			AND o.C_STATUS IN
+			<foreach collection="condition.institutionState" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="condition.classify != null and condition.classify != ''">
+			AND o1.C_CLASSIFY like '%${condition.classify}%'
+		</if>
+		<!--	<if test="condition.cityId != null and condition.cityId !=''">
+                AND o1.C_CITY_ID = #{condition.cityId}
+            </if>-->
+		<if test="condition.provinceId != null and condition.provinceId !=''">
+			AND o1.C_PROVINCE_ID = #{condition.provinceId}
+		</if>
+		<if test="condition.ocStatus != null and condition.ocStatus != -1">
+			AND o1.C_STATUS = #{condition.ocStatus}
+		</if>
+		<if test="condition.executivePhone != null and condition.executivePhone !=''">
+			AND o1.C_EXECUTIVE_PHONE like '%${condition.executivePhone}%'
+		</if>
+		<if test="condition.email != null and condition.email !=''">
+			AND o1.C_EMAIL like '%${condition.email}%'
+		</if>
+		<if test="condition.districtId != null and condition.districtId !=''">
+			AND o1.C_DISTRICT_ID = #{condition.districtId}
+		</if>
+		<if test="condition.cardId != null and condition.cardId != ''">
+			AND o.ID IN(
+			select C_INSTITUTION_ID from institution_activity  where C_ACTIVITY_ID = #{condition.cardId}
+			AND C_STATUS = 1
+			)
+		</if>
+		<if test="condition.serverItemId != null and condition.serverItemId != ''">
+			AND o.ID IN(
+			select ii.C_INSTITUTION_ID from card_service_item  csi
+			left join  institution_service_item ii on csi.id= ii.C_ITEM_ID
+			where csi.C_PARENT_ID =#{condition.serverItemId} and csi.C_PARENT_ID != 1
+			)
+		</if>
+		<if test="condition.appointDate != null">
+			AND o2.C_APPOINT_DATE = #{condition.appointDate}
+		</if>
+		<if test="condition.supportSocialSecurity != null and condition.supportSocialSecurity != -1">
+			AND o.C_SUPPORT_SOCIAL_SECURITY = #{condition.supportSocialSecurity}
+		</if>
+	</sql>
+	<!-- 按照预约降序查询 -->
+	<select id="listInstitutionByPageYuYue" resultMap="institutionResultMap">
+		select * from ((SELECT distinct <include refid="allColumnSql"/>,o1.C_ADDRESS,o1.C_CITY_ID,
+		<!-- 添加子查询查询机构的预约数-->
+		(select COUNT(mo.ID) from mem_appoint_order mo WHERE o.ID = mo.C_INSTITUTION_ID) as C_APPOINT_COUNT
+		,1 as CAN_BOOK
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		WHERE  o.C_DELETE_FLAG = 0 AND  o.C_AUTHENTCATION_RATE >=90 <include refid="searchConditionSql"/>
+
+		)
+		UNION
+		(SELECT distinct <include refid="allColumnSql"/>,o1.C_ADDRESS,o1.C_CITY_ID,
+		   (select COUNT(mo.ID) from mem_appoint_order mo WHERE o.ID = mo.C_INSTITUTION_ID) as C_APPOINT_COUNT,
+		2 as CAN_BOOK
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		<![CDATA[
+		   WHERE o.C_DELETE_FLAG = 0 AND o.C_AUTHENTCATION_RATE < 90
+		]]>
+		<include refid="searchConditionSql"/>
+		group by o.id
+		)) as tmp order BY CASE
+		WHEN tmp.C_CITY_ID = #{condition.cityId} THEN
+		0
+		ELSE
+		1
+		END,tmp.CAN_BOOK,
+		tmp.C_APPOINT_COUNT DESC,
+		tmp.C_RECOMMEND DESC
+	</select>
+	<!-- 按照评价降序查询 -->
+	<select id="listInstitutionByPageAssess" resultMap="institutionResultMap">
+
+		SELECT * from (
+			(SELECT distinct <include refid="allColumnSql"/>,o1.C_ADDRESS,o1.C_CITY_ID,
+
+		        (SELECT COUNT(ma.ID) FROM member_assess ma WHERE ma.C_INSTITUTION_ID = o.id ) as assessCount
+		       ,1 as CAN_BOOK
+				FROM institution o
+				LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+				/*mgq添加*/
+				left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+				WHERE  o.C_DELETE_FLAG = 0 AND o.C_AUTHENTCATION_RATE >=90
+				<include refid="searchConditionSql"/>
+				)
+			UNION
+			(SELECT distinct <include refid="allColumnSql"/>,o1.C_ADDRESS,o1.C_CITY_ID,
+		    (SELECT COUNT(ma.ID) FROM member_assess ma WHERE ma.C_INSTITUTION_ID = o.id ) as assessCount
+		,2 as CAN_BOOK
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		/*mgq添加*/
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		<![CDATA[
+		   WHERE o.C_DELETE_FLAG = 0 AND o.C_AUTHENTCATION_RATE < 90
+		]]>
+		<include refid="searchConditionSql"/>
+		)
+
+		) as tmp
+		ORDER BY CASE WHEN tmp.C_CITY_ID = #{condition.cityId} THEN 0 ELSE 1 END,tmp.CAN_BOOK, tmp.assessCount DESC,tmp.C_RECOMMEND DESC
+
+	</select>
+	<!-- 只查询推荐的 -->
+	<select id="listInstitutionByPageRecommend" resultMap="institutionResultMap">
+		SELECT * from ((SELECT distinct<include refid="allColumnSql"/>,o1.C_ADDRESS,o1.C_CITY_ID
+		,1 as CAN_BOOK
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		WHERE o.C_DELETE_FLAG = 0  AND  o.C_AUTHENTCATION_RATE >=90
+		<include refid="searchConditionSql"/>)
+		UNION
+		(SELECT distinct<include refid="allColumnSql"/>,o1.C_ADDRESS,o1.C_CITY_ID
+		,2 as CAN_BOOK
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		<![CDATA[
+		  WHERE o.C_DELETE_FLAG = 0  AND  o.C_AUTHENTCATION_RATE <90
+		]]>
+		<include refid="searchConditionSql"/>)
+		) as tmp
+		ORDER BY CASE WHEN tmp.C_CITY_ID = #{condition.cityId} THEN 0 ELSE 1 END,tmp.CAN_BOOK, tmp.C_RECOMMEND DESC
+
+	</select>
+
+	<select id="listInstitutionByPageService" resultMap="institutionResultMap">
+		SELECT distinct<include refid="allColumnSql"/>,o1.C_ADDRESS,0 AS ORD
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		WHERE  o.C_DELETE_FLAG = 0
+		AND o.ID IN(
+		select ii.C_INSTITUTION_ID from card_service_item  csi
+		left join  institution_service_item ii on csi.id= ii.C_ITEM_ID
+		where csi. c_name LIKE  CONCAT ('%', '${condition.serviceName}','%') and csi.C_PARENT_ID != 1
+		)
+
+		<if test="condition.lng != null and condition.lat != null">
+			ORDER BY sys_calc_distance(#{condition.lat},#{condition.lng},o1.C_LAT,o1.C_LNG)
+		</if>
+		<if test="condition.lng == null or condition.lat == null">
+			ORDER BY CASE WHEN o1.C_CITY_ID = #{condition.cityId} THEN 0 ELSE 1 END, o.C_FinerStick DESC,o.C_RECOMMEND DESC
+		</if>
+
+	</select>
+	<select id="listInstitutionByPageServicecount" resultType="int">
+		select count(id ) from (SELECT distinct o.id
+
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		WHERE  o.C_DELETE_FLAG = 0
+		<if test="condition.serviceName != null and condition.serviceName != '' ">
+			AND o.ID IN(
+			select ii.C_INSTITUTION_ID from card_service_item csi
+			left join institution_service_item ii on csi.id= ii.C_ITEM_ID
+			where csi. c_name LIKE CONCAT ('%', '${condition.serviceName}','%') and csi.C_PARENT_ID != 1)
+
+		</if>
+		) a
+
+
+	</select>
+
+
+	<!--首页加载方法-->
+	<select id="listInstitutionByPage" resultMap="institutionResultMap">
+		select * from ((SELECT distinct<include refid="allColumnSql"/>,o1.C_ADDRESS,o1.C_CITY_ID
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		WHERE  o.C_DELETE_FLAG = 0  AND o.C_AUTHENTCATION_RATE >=90
+		<include refid="searchConditionSql"/>
+		)
+		UNION
+		(SELECT distinct<include refid="allColumnSql"/>,o1.C_ADDRESS,o1.C_CITY_ID
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		<![CDATA[
+		   WHERE o.C_DELETE_FLAG = 0 AND o.C_AUTHENTCATION_RATE < 90
+		]]>
+		<include refid="searchConditionSql"/>
+		)) as tmp order BY CASE
+		WHEN tmp.C_CITY_ID = #{condition.cityId} THEN
+		0
+		ELSE
+		1
+		END, tmp.C_RECOMMEND DESC
+	</select>
+	<!--首页加载方法-->
+	<select id="listInstitutionByPageByadmin" resultMap="institutionResultMap">
+		SELECT distinct<include refid="allColumnSql"/>,o1.C_ADDRESS,0 AS ORD
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		WHERE  o.C_DELETE_FLAG = 0
+		<include refid="searchConditionSqlshi"/>
+
+		<if test="condition.lng != null and condition.lat != null">
+			ORDER BY sys_calc_distance(#{condition.lat},#{condition.lng},o1.C_LAT,o1.C_LNG)
+		</if>
+		<if test="condition.lng == null or condition.lat == null">
+			ORDER BY CASE WHEN o1.C_CITY_ID = #{condition.cityId} THEN 0 ELSE 1 END, o.C_FinerStick DESC ,o.C_RECOMMEND DESC,C_UPDATE_DATE DESC
+		</if>
+
+	</select>
+
+
+	<select id="listInstitutionByPageByadminCount" resultType="int">
+		SELECT COUNT(a.id) FROM (SELECT distinct<include refid="allColumnSql"/>,o1.C_ADDRESS,0 AS ORD
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		WHERE o.C_DELETE_FLAG = 0
+		<include refid="searchConditionSqlshi"/>
+
+		<if test="condition.lng != null and condition.lat != null">
+			ORDER BY sys_calc_distance(#{condition.lat},#{condition.lng},o1.C_LAT,o1.C_LNG)
+		</if>
+		<if test="condition.lng == null or condition.lat == null">
+			ORDER BY  o.C_RECOMMEND DESC
+		</if>) as a
+	</select>
+
+
+	<!--首页加载方法-->
+	<select id="listInstitutionByshouye" resultMap="institutionResultMap">
+		SELECT distinct<include refid="allColumnSql"/>,o1.C_ADDRESS,0 AS ORD
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		WHERE  o.C_DELETE_FLAG = 0
+		<include refid="searchConditionSql"/>
+		<if test="condition.cityId != null and condition.cityId !=''">
+			AND o1.C_CITY_ID = #{condition.cityId}
+		</if>
+		<if test="condition.lng != null and condition.lat != null">
+			ORDER BY sys_calc_distance(#{condition.lat},#{condition.lng},o1.C_LAT,o1.C_LNG)
+		</if>
+		<if test="condition.lng == null or condition.lat == null">
+			ORDER BY o.C_FinerStick DESC,o.C_RECOMMEND DESC
+		</if>
+		LIMIT 0,6
+	</select>
+
+	<!--	一般查询方法
+        <select id="listInstitutionByPage" resultMap="institutionResultMap">
+            SELECT distinct<include refid="allColumnSql"/>,o1.C_ADDRESS,0 AS ORD
+            FROM institution o
+            LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+            left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+            WHERE 1=1 AND o.C_DELETE_FLAG = 0
+            <include refid="searchConditionSql"/>group by o.id
+            <if test="condition.lng != null and condition.lat != null">
+                ORDER BY sys_calc_distance(#{condition.lat},#{condition.lng},o1.C_LAT,o1.C_LNG)
+            </if>
+            <if test="condition.lng == null or condition.lat == null">
+                ORDER BY o.C_RECOMMEND DESC
+            </if>
+        </select>-->
+	<!--
+    首页条数统计
+        <select id="listInstitutionByPageCountIndex" resultType="int">
+            SELECT count(distinct(o.ID)) FROM institution o
+            LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+            left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+            WHERE 1=1 AND o.C_DELETE_FLAG = 0
+            <include refid="searchConditionSql"/>
+            ORDER BY o.C_RECOMMEND DESC
+
+        </select>-->
+
+	<select id="listInstitutionByPageCount" resultType="int">
+		SELECT COUNT(a.id) FROM (SELECT distinct(o.ID) FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		WHERE  o.C_DELETE_FLAG = 0
+		<include refid="searchConditionSqlThree"/>) as a
+
+	</select>
+
+
+
+	<select id="listInstitutionByCondition" resultMap="institutionResultMap">
+		SELECT <include refid="allColumnSql"/>, count(mo.C_INSTITUTION_ID) as C_APPOINT_COUNT
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		LEFT JOIN mem_appoint_order mo on o.ID = mo.C_INSTITUTION_ID
+		WHERE o.C_DELETE_FLAG = 0
+		<include refid="searchConditionSql"/>
+		group by mo.C_INSTITUTION_ID
+		order by  o.C_FinerStick DESC,o.C_RECOMMEND DESC, C_APPOINT_COUNT desc
+		limit 10
+	</select>
+
+	<!-- 根据Key模糊查询机构 -->
+	<select id="listInstitutionByKey" resultMap="institutionResultMap">
+		SELECT <include refid="allColumnSql"/>
+		FROM institution o
+		WHERE o.C_NAME like '%${key}%'
+		AND  o.C_DELETE_FLAG = 0
+		order by o.C_FinerStick DESC,o.C_RECOMMEND DESC
+	</select>
+
+	<!-- 获取所有生效启用的机构 -->
+	<select id="listInstitutionAllByUsingStatusAndStatus" resultMap="institutionResultMap">
+		SELECT <include refid="allColumnSql"/>
+		FROM institution o
+		WHERE  o.C_DELETE_FLAG = 0
+		AND o.C_USING_STATUS = 0
+		order by o.C_FinerStick DESC,o.C_RECOMMEND DESC
+	</select>
+
+	<!-- 获取所有生效启用的推荐机构按照推荐度和创建时间排逆序 -->
+	<select id="listInstitutionAllByUsingStatusAndStatusAndIsRecommend" resultMap="institutionResultMap">
+		SELECT <include refid="allColumnSql"/>
+		FROM institution o
+		WHERE  o.C_USING_STATUS = 0
+		AND o.C_IS_RECOMMEND= 1 AND o.C_DELETE_FLAG = 0
+		ORDER BY o.C_FinerStick DESC,o.C_RECOMMEND DESC
+	</select>
+
+
+	<select id="getInstitutionById" resultMap="institutionResultMap">
+		SELECT <include refid="allColumnSql"/>
+		FROM institution o
+		WHERE o.ID = #{id}
+	</select>
+
+
+	<select id="getInstitutionByInstitutionNo" resultMap="institutionResultMap">
+		SELECT <include refid="allColumnSql"/>
+		FROM institution o
+		WHERE o.C_INSTITUTION_NO = #{institutionNo}
+	</select>
+
+	<select id="getInstitutionByAccount" resultMap="institutionResultMap">
+		SELECT <include refid="allColumnSql"/>
+		FROM institution o
+		WHERE o.C_ACCOUNT = #{account}
+		AND o.C_DELETE_FLAG=0
+	</select>
+	<select id="getInstitutionByAccountExists" resultMap="institutionResultMap">
+		SELECT <include refid="allColumnSql"/>
+		FROM institution o
+		WHERE o.C_ACCOUNT = #{account}
+		<if test="null != id and '' != id">
+			AND	o.ID != #{id}
+		</if>
+	</select>
+	<select id="getInstitutionByAccountAndPwd" resultMap="institutionResultMap">
+		SELECT <include refid="allColumnSql"/>
+		FROM institution o
+		LEFT JOIN institution_check o1
+		ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		WHERE o.C_ACCOUNT = #{account}
+		AND o.C_PASSWORD = #{password}
+		AND o.C_DELETE_FLAG = 0
+	</select>
+
+	<select id="listInstitutionCities" resultType="com.tocersoft.cms.dto.InstitutionCityVO">
+	SELECT DISTINCT c.sidoIdx AS provinceId,
+		c.sido AS provinceName,
+		c.gugunIdx AS cityId,
+		c.gugun AS cityName
+		FROM institution o0
+		LEFT JOIN institution_check o1 ON o0.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		LEFT JOIN code_address c ON c.idx=o1.C_DISTRICT_ID
+		WHERE o0.C_USING_STATUS = 0 AND o1.C_STATUS = 1 AND c.sidoIdx IS NOT NULL
+		ORDER BY c.gugun
+	</select>
+	<select id="listFastCheckByPage" resultMap="institutionResultMap">
+		SELECT distinct<include refid="allColumnSql"/>,o1.C_ADDRESS
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		WHERE  o.C_DELETE_FLAG = 0  AND o.C_AUTHENTCATION_RATE >=90
+		<include refid="searchConditionSql"/>
+		order BY CASE
+		WHEN o1.C_CITY_ID = #{condition.cityId} THEN
+		0
+		ELSE
+		1
+		END,o.C_RECOMMEND DESC
+	</select>
+
+	<select id="listFastCheckByPageCount" resultType="int">
+		SELECT count(a.ID) FROM (SELECT distinct(o.ID)
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		WHERE o.C_DELETE_FLAG = 0 AND o.C_AUTHENTCATION_RATE >=90
+		<include refid="searchConditionSql"/>) as a
+	</select>
+
+	<select id="listFastCheck" resultMap="institutionResultMap">
+		select distinct o.id
+		,o.C_NAME
+		,o.C_INSTITUTION_NO
+		,CONCAT(o1.C_PROVINCE_NAME,o1.C_CITY_NAME,o1.C_DISTRICT_NAME,o1.C_ADDRESS) as C_ADDRESS
+		from institution o
+		left join institution_check o1 on o1.C_INSTITUTION_NO = o.C_INSTITUTION_NO
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		where  o.C_USING_STATUS = 0
+		and o.C_IS_RECOMMEND = 1
+		<if test="cityId != null and cityId != ''">
+			and o1.C_CITY_ID = #{cityId}
+		</if>
+		<if test="appointDate != null">
+			and o2.C_APPOINT_DATE = #{appointDate}
+		</if>
+		ORDER BY CASE WHEN o1.C_CITY_ID = #{condition.cityId} THEN 0 ELSE 1 END,o.C_FinerStick DESC,o.C_RECOMMEND DESC
+	</select>
+
+	<!-- 手机端机构分页查询 -->
+	<select id="listMobileByPage" resultMap="institutionResultMap">
+		SELECT distinct <include refid="allColumnSql"/>,o1.C_ADDRESS,count(mo.C_INSTITUTION_ID) as C_APPOINT_COUNT
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join member_assess ma on o.id = ma.C_INSTITUTION_ID
+		LEFT JOIN mem_appoint_order mo on o.ID = mo.C_INSTITUTION_ID
+		WHERE o.C_DELETE_FLAG = 0
+		<include refid="searchConditionSql"/>
+		group by o.id
+		<if test="condition.order == 2">
+			ORDER BY CASE WHEN o1.C_CITY_ID = #{condition.cityId} THEN 0 ELSE 1 END,count(ma.C_INSTITUTION_ID) desc
+		</if>
+		<if test="condition.order == 3">
+			ORDER BY CASE WHEN o1.C_CITY_ID = #{condition.cityId} THEN 0 ELSE 1 END,o.C_FinerStick DESC,o.C_RECOMMEND DESC
+		</if>
+		<if test="condition.order == 4">
+			ORDER BY CASE WHEN o1.C_CITY_ID = #{condition.cityId} THEN 0 ELSE 1 END,C_APPOINT_COUNT DESC
+		</if>
+	</select>
+	<select id="listMobileByPageCount" resultType="int">
+		SELECT count(DISTINCT o.id)
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		LEFT JOIN mem_appoint_order mo on o.ID = mo.C_INSTITUTION_ID
+		WHERE  o.C_DELETE_FLAG = 0
+		<include refid="searchConditionSql"/>
+	</select>
+
+
+	<select id="listByConditionCountNum" resultType="int">
+		SELECT count(DISTINCT o.id)
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		LEFT JOIN institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		WHERE  o.C_DELETE_FLAG = 0
+		<include refid="searchConditionSql"/>
+	</select>
+
+	<select id="listByCondition" resultMap="institutionResultMap">
+
+		SELECT * from (
+		  (SELECT distinct <include refid="allColumnSql"/>,o1.C_ADDRESS,o1.C_CITY_ID,o1.C_LAT,o1.C_LNG
+		,1 as CAN_BOOK
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		/* mgq 修改*/
+		left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+		WHERE  o.C_DELETE_FLAG = 0
+		and o.C_AUTHENTCATION_RATE >=90
+		<include refid="searchConditionSql"/>
+		)
+		  UNION
+		  (SELECT distinct <include refid="allColumnSql"/>,o1.C_ADDRESS,o1.C_CITY_ID,o1.C_LAT,o1.C_LNG
+		    ,2 as CAN_BOOK
+			FROM institution o
+			LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+			/* mgq 修改*/
+			left join institution_appoint_arrange o2 on o.ID = o2.C_INSTITUTION_ID
+			<![CDATA[
+			   WHERE o.C_DELETE_FLAG = 0 AND o.C_AUTHENTCATION_RATE < 90
+			]]>
+			<include refid="searchConditionSql"/>
+		)
+		) as tmp
+		ORDER BY
+		CASE WHEN tmp.C_CITY_ID = #{condition.cityId} THEN 0 ELSE 1 END,tmp.CAN_BOOK,
+		    sys_calc_distance(#{condition.lat},#{condition.lng},tmp.C_LAT,tmp.C_LNG),
+		    tmp.C_RECOMMEND DESC
+	</select>
+
+	<select id="listDistanceByPage" resultMap="institutionResultMap">
+		SELECT distinct <include refid="allColumnSql"/>,o1.C_ADDRESS,
+		sys_calc_distance(#{condition.lat},#{condition.lng},o1.C_LAT,o1.C_LNG) as distance
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join member_assess ma on o.id = ma.C_INSTITUTION_ID
+		WHERE  o.C_DELETE_FLAG = 0
+		<include refid="searchConditionSql"/>
+		order by CASE WHEN o1.C_CITY_ID = #{condition.cityId} THEN 0 ELSE 1 END,distance asc
+		<!-- group by o.id -->
+	</select>
+
+	<select id="listDistanceByPageCount" resultType="int">
+		SELECT count(DISTINCT o.id)
+		FROM institution o
+		LEFT JOIN institution_check o1 ON o.C_INSTITUTION_NO = o1.C_INSTITUTION_NO
+		left join member_assess ma on o.id = ma.C_INSTITUTION_ID
+		WHERE  o.C_DELETE_FLAG = 0
+		<include refid="searchConditionSql"/>
+	</select>
+
+	<!-- 根据医生ID查询机构 -->
+	<select id="listInstitutionByExpertId" resultMap="institutionResultMap">
+		SELECT <include refid="allColumnSql"/>
+		FROM institution o
+		LEFT JOIN institution_expert o2
+		ON o.ID = o2.C_INSTITUTION_ID
+		WHERE o2.C_EXPERT_ID = #{expertId}
+	</select>
+
+	<select id="listInstBypageCount" resultType="int">
+		SELECT count(DISTINCT o.id)
+		FROM institution o
+		where id in
+		<foreach item="item" index="index" collection="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		and C_DELETE_FLAG=0
+		<if test="name!=null">
+			and c_name like CONCAT('%','${name}','%' )
+		</if>
+	</select>
+
+	<select id="listInstBypage" resultMap="institutionResultMap">
+		SELECT distinct <include refid="allColumnSql"/>
+		FROM institution o
+		where id in
+		<foreach item="item" index="index" collection="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		and C_DELETE_FLAG=0
+		<if test="name!=null">
+			and c_name like CONCAT('%','${name}','%' )
+		</if>
+	</select>
+
+	<select id="listInstNotNo" resultMap="institutionResultMap">
+		SELECT distinct <include refid="allColumnSql"/>
+		FROM institution o
+		where
+		id not in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		and
+		C_DELETE_FLAG=0
+		order by C_RECOMMEND DESC
+		LIMIT 0,4
+	</select>
+
+
+
+
+
+	<insert id="add" parameterType="institution">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			SELECT SYS_GUID()
+		</selectKey>
+		INSERT INTO institution
+		(
+		ID,
+		C_CREATE_BY,
+		C_CREATE_DATE,
+		C_UPDATE_BY,
+		C_UPDATE_DATE,
+		C_DELETE_FLAG,
+		C_INSTITUTION_NO,
+		C_NAME,
+		C_ACCOUNT,
+		C_PASSWORD,
+		C_IS_RECOMMEND,
+		C_RECOMMEND,
+		C_STATUS,
+		C_REASON,
+		C_USING_STATUS,
+		C_HY_URL,
+		C_AUTHENTCATION_RATE,
+		C_AUTHENTCATION_STATUS,
+		C_TRIAL,
+		C_BL_STATUS,
+		C_MIBL_STATUS,
+		C_SUPPORT_SOCIAL_SECURITY
+		)
+		VALUES
+		(
+		#{id},
+		#{createBy},
+		SYSDATE(),
+		#{updateBy},
+		SYSDATE(),
+		0,
+		serialNoCreate('J'),
+		#{name},
+		#{account},
+		#{password},
+		0,
+		0,
+		0,
+		#{reason},
+		0,
+		#{hyUrl},
+		0,
+		0,
+		0,
+		0,
+		0,
+		1
+		)
+	</insert>
+
+	<insert id="addNoGeneratorNumber" parameterType="institution">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			SELECT SYS_GUID()
+		</selectKey>
+		INSERT INTO institution
+		(
+		ID,
+		C_CREATE_BY,
+		C_CREATE_DATE,
+		C_UPDATE_BY,
+		C_UPDATE_DATE,
+		C_DELETE_FLAG,
+		C_INSTITUTION_NO,
+		C_NAME,
+		C_ACCOUNT,
+		C_PASSWORD,
+		C_IS_RECOMMEND,
+		C_RECOMMEND,
+		C_STATUS,
+		C_REASON,
+		C_USING_STATUS,
+		C_HY_URL,
+		C_AUTHENTCATION_RATE,
+		C_AUTHENTCATION_STATUS,
+		C_TRIAL,
+		C_BL_STATUS,
+		C_MIBL_STATUS,
+		C_SUPPORT_SOCIAL_SECURITY
+		)
+		VALUES
+		(
+		#{id},
+		#{createBy},
+		SYSDATE(),
+		#{updateBy},
+		SYSDATE(),
+		0,
+		#{institutionNo},
+		#{name},
+		#{account},
+		#{password},
+		0,
+		0,
+		0,
+		#{reason},
+		0,
+		#{hyUrl},
+		0,
+		0,
+		0,
+		0,
+		0,
+		1
+		)
+	</insert>
+
+	<update id="update" parameterType="institution" >
+		UPDATE institution SET
+		C_UPDATE_BY = #{updateBy},
+		C_UPDATE_DATE = SYSDATE(),
+		C_ACCOUNT = #{account},
+		C_NAME = #{name},
+		C_PASSWORD = #{password},
+		C_IS_RECOMMEND = #{isRecommend},
+		C_RECOMMEND = #{recommend},
+		C_STATUS = #{status},
+		C_REASON = #{reason},
+		C_SUPPORT_SOCIAL_SECURITY = #{supportSocialSecurity}
+		WHERE ID = #{id}
+	</update>
+	<update id="updateIsRecommendByIds" >
+		UPDATE institution SET
+		C_IS_RECOMMEND = #{isRecommend},
+		C_UPDATE_DATE = SYSDATE()
+		WHERE ID IN
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="updateStatusByIds"  >
+		UPDATE institution SET
+		C_STATUS= #{status},
+		C_UPDATE_DATE = SYSDATE()
+		WHERE ID IN
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="updateAuthentcationStatusReasonById"  >
+		UPDATE institution SET
+		C_AUTHENTCATION_STATUS= #{authentcationStatus},
+		C_REASON= #{reason},
+		C_UPDATE_DATE = SYSDATE()
+		WHERE ID IN
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="updateAuthentcationStatusById">
+		UPDATE institution SET
+		C_AUTHENTCATION_STATUS = #{authentcationStatus},
+		C_UPDATE_DATE = SYSDATE()
+		WHERE ID = #{id}
+	</update>
+
+	<update id="updateBlStatusById">
+		UPDATE institution SET
+		C_BL_STATUS = #{blStatus},
+		C_UPDATE_DATE = SYSDATE()
+		WHERE ID = #{id}
+	</update>
+
+	<update id="updateMiblStatusById">
+		UPDATE institution SET
+		C_MIBL_STATUS = #{miblStatus},
+		C_UPDATE_DATE = SYSDATE()
+		WHERE ID = #{id}
+	</update>
+
+
+	<update id="updateTrialById"  >
+		UPDATE institution SET
+		C_TRIAL= #{trial},
+		C_UPDATE_DATE = SYSDATE()
+		WHERE ID IN
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="updateHyUrlById"  >
+		UPDATE institution SET
+		C_HY_URL= #{hyUrl},
+		C_STATUS= #{status},
+		C_UPDATE_DATE = SYSDATE()
+		WHERE ID = #{id}
+	</update>
+
+
+
+	<update id="updateUsingStatus">
+		UPDATE institution SET
+		C_USING_STATUS = #{usingStatus},
+		C_UPDATE_DATE = SYSDATE()
+		WHERE ID  IN
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!--xgs 增加推荐度更新 2015年8月11日10:38:58-->
+	<update id="updateAuthentcationRate">
+		UPDATE institution 
+		SET C_UPDATE_DATE = SYSDATE(),
+			C_STATUS= #{status},
+			C_UPDATE_BY = #{updateBy},
+			C_AUTHENTCATION_RATE = #{authentcationRate},
+
+			C_RECOMMEND = #{recommend}
+
+		WHERE ID = #{id}
+	</update>
+
+
+	<update id="resetPwd" parameterType="institution" >
+		UPDATE institution SET
+		C_PASSWORD = #{password},
+		C_UPDATE_DATE = SYSDATE()
+		WHERE ID = #{id}
+	</update>
+
+	<update id="updateRecommend" parameterType="institution" >
+		UPDATE institution SET
+		C_RECOMMEND = #{recommend},
+		C_UPDATE_DATE = SYSDATE()
+		WHERE ID = #{id}
+	</update>
+
+	<update id="updateName" parameterType="institution" >
+		UPDATE institution SET
+		C_NAME = #{name},
+		C_UPDATE_DATE = SYSDATE()
+		WHERE ID = #{id}
+	</update>
+
+	<update id="updateFlagbyIds">
+		UPDATE institution SET
+		C_DELETE_FLAG = #{deleteFlag},
+		C_UPDATE_DATE = SYSDATE()
+		WHERE ID IN
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!--xgs 2015年8月11日11:06:11 更新推荐度状态-->
+	<update id="updateFinerStatus" parameterType="institution" >
+		UPDATE institution SET
+		C_FinerStatus=#{finerStatus},
+		C_FinerStick=#{finerStick},
+		C_UPDATE_DATE = SYSDATE()
+		WHERE ID = #{id}
+	</update>
+	<!--end -->
+
+	<delete id="delByIds">
+		DELETE FROM institution
+		WHERE ID IN
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+
+	<select id="institutionByExpertId" resultMap="institutionResultMap">
+		SELECT distinct <include refid="allColumnSql"/>
+		FROM institution o join institution_expert ie on o.id=ie.C_INSTITUTION_ID
+		where ie.C_EXPERT_ID=#{id}
+	</select>
+	<!-- 根据机构名称查询机构 -->
+	<select id="findInsByInsName" resultMap="institutionResultMap">
+		SELECT <include refid="allColumnSql"/> ,i.C_EXECUTIVE_PHONE as mobile,i.C_ADDRESS as address
+		FROM institution o
+		LEFT JOIN  institution_check i on o.C_INSTITUTION_NO = i.C_INSTITUTION_NO
+		WHERE o.C_NAME = #{insName}
+		limit 0,1
+	</select>
+
+</mapper>

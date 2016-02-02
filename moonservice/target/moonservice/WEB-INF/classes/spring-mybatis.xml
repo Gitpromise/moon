@@ -30,6 +30,8 @@
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:jdbc.properties" />
     </bean>
+    <!-- 启动对@AspectJ注解的支持 -->
+    <!--<aop:aspectj-autoproxy />-->
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
@@ -56,15 +58,12 @@
         <!-- 自动扫描mapping.xml文件 -->
         <property name="mapperLocations">
             <list>
-                <value>classpath*:com/moon/auth/mapper/*.xml</value>
+                <value>classpath*:mapper/**/*.xml</value>
                 <!--<value>classpath:com/business/auth/mapper/IDepartMapper.xml</value>-->
             </list>
         </property>
-        <!--<property name="configLocation" value="classpath:mybatis-config.xml"/>-->
         <!--<property name="mapperLocations" value="classpath*:com/business/auth/mapper/IDepartMapper.xml"/>-->
     </bean>
-
-
     <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
     <bean name="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="annotationClass" value="org.springframework.stereotype.Repository" />
