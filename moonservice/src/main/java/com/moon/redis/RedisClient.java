@@ -77,6 +77,27 @@ public class RedisClient {
             jedisPool.returnResource(jedis);
         }
     }
+    /**
+     * 向缓存中设置对象,以及过期时间
+     * @param key
+     * @param value
+     * @param time 过期时间 （秒）
+     * @return
+     */
+    public static boolean  set(String key,Object value,int time){
+        Jedis jedis = null;
+        try {
+            String objectJson = JSON.toJSONString(value);
+            jedis = jedisPool.getResource();
+            jedis.setex(key,time,objectJson);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }finally{
+            jedisPool.returnResource(jedis);
+        }
+    }
 
     /**
      * 删除缓存中得对象，根据key

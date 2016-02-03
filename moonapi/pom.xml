@@ -17,20 +17,6 @@
             <artifactId>lombok</artifactId>
             <version>1.12.6</version>
         </dependency>
-        <!--solr start-->
-        <dependency>
-            <groupId>org.apache.solr</groupId>
-            <artifactId>solr</artifactId>
-            <version>4.10.2</version>
-        </dependency>
-        <!--solr end-->
-        <!--redis start-->
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>2.5.0</version>
-        </dependency>
-        <!--redis end-->
     </dependencies>
 
 

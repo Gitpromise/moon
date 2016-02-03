@@ -9,12 +9,11 @@ import org.junit.Test;
 public class RedisTest {
     @Test
     public void testJedis()throws Exception{
-        RedisClient redisClient=new RedisClient();
-        System.out.println(redisClient);
 
-        redisClient.set("key01", "测试redis");
-
-        Object o=RedisClient.get("key01");
+//        RedisClient.set("key01", "测试redis");
+//        RedisClient.set("key02", "测试redisTime",10);
+//        RedisClient.del("key02");
+        Object o=RedisClient.get("key02");
         System.out.println(o);
     }
 }
