@@ -755,7 +755,7 @@
 		AND o.C_DELETE_FLAG = 0
 	</select>
 
-	<select id="listInstitutionCities" resultType="com.tocersoft.cms.dto.InstitutionCityVO">
+	<!--<select id="listInstitutionCities" resultType="com.tocersoft.cms.dto.InstitutionCityVO">
 	SELECT DISTINCT c.sidoIdx AS provinceId,
 		c.sido AS provinceName,
 		c.gugunIdx AS cityId,
@@ -765,7 +765,7 @@
 		LEFT JOIN code_address c ON c.idx=o1.C_DISTRICT_ID
 		WHERE o0.C_USING_STATUS = 0 AND o1.C_STATUS = 1 AND c.sidoIdx IS NOT NULL
 		ORDER BY c.gugun
-	</select>
+	</select>-->
 	<select id="listFastCheckByPage" resultMap="institutionResultMap">
 		SELECT distinct<include refid="allColumnSql"/>,o1.C_ADDRESS
 		FROM institution o
