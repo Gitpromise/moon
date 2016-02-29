@@ -4,19 +4,22 @@ package com.moon.auth.serviceimpl;
 import com.moon.auth.dao.IDepartDao;
 import com.moon.auth.entity.Depart;
 import com.moon.auth.service.IDepartService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
-@Repository("departServiceImpl")
+@Service("departServiceImpl")
 @Transactional(value = "transactionManager")
 public class DepartServiceImpl implements IDepartService {
 
-	@Resource(name = "departDao")
+	//@Resource(name = "departDao")//注解方式一：使用的是java自带
+	@Autowired					   //注解方式二：使用的是spring
+	@Qualifier("departDao")
 	private IDepartDao departDao;
-
-
 
 	/**
 	 * 根据ID查询

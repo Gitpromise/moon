@@ -1,6 +1,7 @@
 package com.moon.task;
 
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,11 +9,12 @@ import java.util.Date;
 /**
  * Created by mgq on 2016/2/3.
  */
+@Component
 public class CommonTask {
     //@Scheduled(fixedDelay=1000)  //第一种方式
     //fixedDelay延时多少毫秒，多少毫秒执行一次
-    @Scheduled(cron="0 * * * * *")     //第二种方式
-
+    //@Scheduled(cron="0 * * * * *")     //第二种方式
+    @Scheduled(cron="0/5 * * * * ? ")   //每5秒执行一次
     /*
         1 Seconds (0-59)
         2 Minutes (0-59)
@@ -36,6 +38,6 @@ public class CommonTask {
     public void singing(){
         Date date=new Date();
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        System.out.println(sdf.format(date));
+        System.out.println("定时打印时间:"+sdf.format(date));
     }
 }

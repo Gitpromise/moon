@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  * Created by mgq on 2016/1/28.
  */
 @RunWith(SpringJUnit4ClassRunner.class)     //表示继承了SpringJUnit4ClassRunner类
-@ContextConfiguration(locations = {"classpath:spring-mybatis.xml"})
+@ContextConfiguration(locations = {"classpath:spring.xml"})
 public class TestMybatis {
 
     @Resource(name = "departServiceImpl")

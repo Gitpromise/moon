@@ -2,6 +2,7 @@ package com.moon.auth.entity;
 
 
 import com.moon.base.entity.BaseBusEntity;
+import lombok.Data;
 
 /**
  * 部门表
@@ -9,6 +10,7 @@ import com.moon.base.entity.BaseBusEntity;
  * @creator
  * @create-time 2014-04-29 10:41:34s
  */
+@Data
 public class Depart extends BaseBusEntity {
 	/**  */
 	private static final long serialVersionUID = 1L;
