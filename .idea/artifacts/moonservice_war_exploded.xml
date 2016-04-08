@@ -7,7 +7,9 @@
           <element id="module-output" name="moonservice" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Maven: com.moon:moonapi:1.0-SNAPSHOT" />
+          <element id="archive" name="moonapi-1.0.jar">
+            <element id="module-output" name="moonapi" />
+          </element>
           <element id="library" level="project" name="Maven: org.projectlombok:lombok:1.12.6" />
           <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.1.41" />
           <element id="library" level="project" name="Maven: org.springframework:spring-core:4.0.2.RELEASE" />
@@ -40,10 +42,13 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.4.2" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.4.0" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.4.2" />
+          <element id="library" level="project" name="Maven: io.netty:netty-all:5.0.0.Alpha2" />
+          <element id="library" level="project" name="Maven: org.apache.ant:ant:1.8.2" />
+          <element id="library" level="project" name="Maven: org.apache.ant:ant-launcher:1.8.2" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/moonservice/target/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/moonservice/target/moonservice/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="moonservice/web/Web" />
     </root>

@@ -14,7 +14,7 @@ public class CommonTask {
     //@Scheduled(fixedDelay=1000)  //第一种方式
     //fixedDelay延时多少毫秒，多少毫秒执行一次
     //@Scheduled(cron="0 * * * * *")     //第二种方式
-    @Scheduled(cron="0/5 * * * * ? ")   //每5秒执行一次
+    //@Scheduled(cron="0/5 * * * * ? ")   //每5秒执行一次
     /*
         1 Seconds (0-59)
         2 Minutes (0-59)

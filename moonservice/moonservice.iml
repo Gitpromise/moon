@@ -27,7 +27,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.moon:moonapi:1.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="moonapi" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.12.6" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.1.41" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.11" level="project" />
@@ -62,5 +62,8 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.4.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.4.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.4.2" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-all:5.0.0.Alpha2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.ant:ant:1.8.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.ant:ant-launcher:1.8.2" level="project" />
   </component>
 </module>

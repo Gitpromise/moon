@@ -1,5 +1,7 @@
 package com.moon.base.utils;
 
+import java.nio.charset.Charset;
+
 /**
  * 系统中的常量
  * 
@@ -97,7 +99,10 @@ public interface Constant {
 	 * 连接符号
 	 */
 	public static final String SYMBOL_JOIN = "-";
-	
+	/**
+	 * 连接符号
+	 */
+	public static final Charset UTF8=Charset.forName("utf-8");
 	/**
 	 * 创建人默认值
 	 */
