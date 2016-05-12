@@ -24,8 +24,16 @@ public class TestMybatis {
     private IDepartService departService;
     @Test
     public void testDao(){
-        Depart depart=departService.getDepartById("1ad73acf05b511e5a09e02004c4f4f50");
-        System.out.println(depart);
+        long startTime=System.currentTimeMillis();
+        //使用redis耗时847毫秒(循环100)   5257毫秒(循环1000)
+        //不使用1040毫秒         11575毫秒
+        for (int i=0;i<1000;i++) {
+            Depart depart = departService.getDepartById("1ad73acf05b511e5a09e02004c4f4f50");
+            //System.out.println(depart);
+        }
+        long endTime=System.currentTimeMillis();
+        System.out.println("耗时:"+(endTime-startTime)+"毫秒");
+
     }
     @Resource
     private BootServer bootServer;

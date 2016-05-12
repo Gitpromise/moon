@@ -1,6 +1,8 @@
 package com.moon.redis;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -10,6 +12,7 @@ import java.util.ResourceBundle;
 /**
  * Created by mgq on 2016/2/1.
  */
+@Service("redisClient")
 public class RedisClient {
     public  static JedisPool jedisPool; // 池化管理jedis链接池
 
@@ -148,7 +151,7 @@ public class RedisClient {
         try {
             jedis = jedisPool.getResource();
             String value = jedis.get(key);
-            return JSON.parseObject(value, clazz);
+            return JSONObject.parseObject(value, clazz);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

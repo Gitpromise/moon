@@ -4,6 +4,7 @@ package com.moon.auth.serviceimpl;
 import com.moon.auth.dao.IDepartDao;
 import com.moon.auth.entity.Depart;
 import com.moon.auth.service.IDepartService;
+import com.moon.redis.RedisClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -21,13 +22,20 @@ public class DepartServiceImpl implements IDepartService {
 	@Qualifier("departDao")
 	private IDepartDao departDao;
 
+
 	/**
 	 * 根据ID查询
 	 * @param id 主键
 	 * @return 部门表
 	 */
 	public Depart getDepartById(String id){
-		return departDao.getDepartById(id);
+		Depart obj=RedisClient.get(id,Depart.class);
+		if (null!=obj){
+			return obj;
+		}
+		Depart depart=departDao.getDepartById(id);
+		RedisClient.set(id,depart);
+		return depart;
 	}
 
 	/**

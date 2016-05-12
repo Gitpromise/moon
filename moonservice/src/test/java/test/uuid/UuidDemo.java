@@ -12,4 +12,9 @@ public class UuidDemo {
     public void test01(){
         System.out.println(UUID.randomUUID());
     }
+    @Test
+    public void test02(){
+        Math.random();
+        System.out.println((int) ((Math.random() * 9 + 1) * 100000));
+    }
 }

@@ -1,6 +1,7 @@
 package test.thread;
 
 import lombok.Synchronized;
+import org.junit.Test;
 
 /**
  * Created by maguoqiang on 2016/3/17.
@@ -31,5 +32,14 @@ public class ThreadTest implements Runnable {
         t_04.run();
         t_05.run();
 
+    }
+
+    public void testThread(int t) {
+        //线程安全
+        synchronized (Object.class) {
+            for (int i = 0; i < 10; i++) {
+                System.out.print(t);
+            }
+        }
     }
 }
