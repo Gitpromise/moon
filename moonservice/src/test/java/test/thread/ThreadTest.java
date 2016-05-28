@@ -5,6 +5,7 @@ import org.junit.Test;
 
 /**
  * Created by maguoqiang on 2016/3/17.
+ * 测试
  */
 public class ThreadTest implements Runnable {
 

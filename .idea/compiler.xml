@@ -27,9 +27,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.7">
-      <module name="beyondthemoon" target="1.7" />
-      <module name="moonapi" target="1.7" />
-      <module name="moonservice" target="1.7" />
+      <module name="beyondthemoon" target="1.5" />
+      <module name="moonapi" target="1.5" />
+      <module name="moonservice" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
