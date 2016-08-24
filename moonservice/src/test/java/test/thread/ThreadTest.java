@@ -12,7 +12,6 @@ public class ThreadTest implements Runnable {
     private static int i=20;
 
 
-    @Override
     public void run() {
         while (i>0){
             System.out.println(i--);

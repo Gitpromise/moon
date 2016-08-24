@@ -12,7 +12,7 @@ public class ListDemo {
     @Test
     public void test01(){
 
-        List<Integer> arrayList=new ArrayList<>();//默认放10个数据
+        List<Integer> arrayList=new ArrayList<Integer>();//默认放10个数据
         System.out.println(arrayList.size());
         List vector=new Vector();
         long sTime=System.currentTimeMillis();

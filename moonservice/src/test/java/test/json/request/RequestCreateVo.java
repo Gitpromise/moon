@@ -40,7 +40,7 @@ public class RequestCreateVo<T> extends RequestBaseVo {
         requestCreateVo.setData(appointOrderVo);
         requestCreateVo.setSign("234123412");
         requestCreateVo.setTimestamp(12343124);
-        RequestCreateVo<AppointOrderVo> ddd=new RequestCreateVo<>();
+        RequestCreateVo<AppointOrderVo> ddd=new RequestCreateVo<AppointOrderVo>();
         System.out.println(JSON.toJSON(requestCreateVo));
         ddd=JSONObject.parseObject(JSON.toJSONString(requestCreateVo), ddd.getClass());
         System.out.println(ddd);

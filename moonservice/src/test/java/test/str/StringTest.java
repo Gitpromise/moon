@@ -14,4 +14,23 @@ public class StringTest {
         System.out.println(i);
         System.out.println(s);
     }
+
+    @Test
+    public void test02(){
+        int a=1;
+        int b=3;
+        long c=a*b;
+    }
+
+    public long count(long a,long b)throws Exception{
+        return a*b;
+    }
+
+    public static void main(String[] args) {
+        try {
+            new StringTest().count(1,3);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

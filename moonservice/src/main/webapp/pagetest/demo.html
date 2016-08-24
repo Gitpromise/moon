@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        var count=0;
+        var size=3;
+        var current_date=new Date();
+        var previous_count=0;
+        function account(){
+            count++;
+            var current_date_val=current_date.valueOf();
+            current_date_val=current_date_val-(previous_count+count*size)* 24 * 60 * 60 * 1000;
+            current_date_val=new Date(current_date_val);
+            var yearStr=current_date_val.getFullYear();
+            var monthStr=(current_date_val.getMonth() + 1)>=10?(current_date_val.getMonth() + 1):"0"+(current_date_val.getMonth() + 1);
+            var dayStr=(current_date_val.getDate())>=10?(current_date_val.getDate()):"0"+(current_date_val.getDate());
+            var dateStr=yearStr+"-"+monthStr+"-"+dayStr;
+            alert(dateStr);
+        }
+    </script>
+</head>
+<body>
+    <input type="button" onclick="account()">点击
+</body>
+</html>
